@@ -1,0 +1,6 @@
+<div class='title ui raised segment'>Playlist</div>
+ <div class="ui relaxed divided list">
+  <div class="item" *ngFor="let p of playlistState.playList; let i = index" [class.playing] = "p === playlistState.activeVideo">
+      <my-playlistitem [playlistitem]="p" [index]="i"></my-playlistitem>
+  </div>
+</div> 

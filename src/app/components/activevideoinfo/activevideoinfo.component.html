@@ -1,0 +1,9 @@
+    <div class="infobar" *ngIf="playlistState.activeVideo">
+            <div class="header">
+              {{playlistState.activeVideo.title}}
+            </div>
+            <div  class="description" >
+            <div>Added by {{playlistState.activeVideo.uploader}}</div>
+            <div>{{playlistState.activeVideo.rating}} likes</div>
+            </div>
+    </div>

@@ -1,0 +1,26 @@
+.ui.container {
+    display: flex;
+    justify-content: flex-end;
+    position: relative;
+    top: 10px;
+}
+
+my-player {
+    width: 100%;
+    background-color: black;
+    display: flex;
+    flex-direction: column;
+}
+
+my-playlist {}
+
+@media (max-width: 700px) {
+    .ui.container {
+        flex-direction: column;
+        height: 100%;
+        margin: 0!important;
+    }
+    my-player {
+        height: 300px;
+    }
+}

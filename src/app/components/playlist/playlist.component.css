@@ -1,0 +1,36 @@
+.ui.relaxed.divided.list {
+    margin: 0;
+    background-color: black;
+    border-right: 5px solid #555555;
+    border-radius: 0 5px 5px 0;
+    overflow-y: scroll;
+}
+
+.ui.relaxed.list:not(.horizontal)>.item {
+    padding: 0;
+}
+.title{
+    height:50px;
+    min-width: 250px;
+    background: white;
+    color:black;
+    font-weight: bold;
+    font-size: 1.3em;
+    text-align: center;
+    margin: 0;
+}
+
+@media (max-width: 700px) {
+    .ui.relaxed.divided.list {
+        border-left: 5px solid #555555;
+        border-bottom: 5px solid #555555;
+        border-radius: 0 0 5px 5px;
+        height: 100vh;
+    }
+}
+
+@media (min-width: 700px) {
+    .ui.relaxed.divided.list {
+        height: 600px;
+    }
+}

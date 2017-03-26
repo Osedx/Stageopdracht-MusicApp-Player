@@ -1,0 +1,15 @@
+.playercontainer {
+    height:100%;
+    width: 100%;
+    border-right: 2px solid #555555;
+    border-left: 5px solid #555555;
+    border-radius: 5px 0 0 0;
+}
+
+@media (max-width: 700px) {
+    .playercontainer {
+        border: none;
+        height: 300px;
+    }
+
+}

@@ -1,0 +1,12 @@
+
+a {
+  color: #00B7FF;
+}
+.ui.menu .item>img:not(.ui) {
+    width: auto;
+    max-height: 50px;
+}
+
+.ui.menu .logo:before {
+    display: none;
+}

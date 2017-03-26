@@ -1,0 +1,17 @@
+<div class="playlistflexcontainer" (click)="selectVideo()" [ngClass]="{'active': playlistitem?._id === this.playlistState.activeVideo?._id}">
+    <div class="number">{{index +1}}</div>
+    <img class="ui tiny left floated image playlistimage" src="{{playlistitem.thumbnailurl}}">
+    <div class="infocontainer">
+    <div class="content">
+        <div class="header">
+          {{playlistitem.title}}
+        </div>
+        <div class="info">
+        <div  class="description">
+          Added by {{playlistitem.uploader}}
+        </div>
+        </div>
+        <div class="right floated content">
+        </div>
+    </div>
+</div>

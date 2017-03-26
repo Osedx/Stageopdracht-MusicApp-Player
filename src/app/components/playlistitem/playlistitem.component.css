@@ -1,0 +1,67 @@
+.playlistflexcontainer{
+    max-height: 62px;
+    display:flex;
+    justify-content: flex-start;
+    flex-direction: row;
+    padding: 6px 0 6px 6px;
+}
+
+.playlistflexcontainer:hover {
+    border-top: 1px solid #555555;
+    cursor: pointer;
+    background-color: #555555;
+}
+.playlistflexcontainer.active {
+    cursor: default;
+    border-top: 1px solid #555555;
+    background-color: #f1f1f1;
+}
+
+.playlistflexcontainer.active .infocontainer > .content > .header {
+    color: black;
+}
+
+.playlistflexcontainer.active .infocontainer > .content > .info > .description,
+.playlistflexcontainer.active .number {
+    color: #3a3a3a;
+}
+
+.infocontainer > .content > .header {
+    overflow: hidden;
+   text-overflow: ellipsis;
+   display: -webkit-box;
+    line-height:1.2em;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    width:100%;
+    padding:2px;
+    max-height: 3em;
+    color: white;
+    font-size: 0.85em;
+}
+
+.infocontainer > .content > .info > .description {
+    color: #d2d2d2;
+    font-size: 0.80em;
+}
+/*
+.ui.divided.list>.item{
+    padding: 0 0 0 5px;
+    border-top: white 1px solid;
+}
+*/
+
+.number{
+    z-index: 1;
+    color: white;
+    align-self: center;
+    margin: 0 5px;
+    font-size: 0.85em;
+}
+
+/*
+
+@media (max-width: 400px) {
+
+}
+*/
