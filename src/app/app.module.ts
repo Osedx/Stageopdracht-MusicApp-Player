@@ -10,6 +10,8 @@ import { PagesModule } from './pages/pages.module';
 // import { PipesModule } from './pipes';
 import { AppComponent } from './app.component';
 
+import { APP_CONFIG, AppConfig } from "./app.config";
+
 @NgModule({
     imports: [
         CoreModule,
@@ -21,6 +23,9 @@ import { AppComponent } from './app.component';
     ],
     declarations: [
         AppComponent
+    ],
+    providers: [
+        { provide: APP_CONFIG, useValue: AppConfig }
     ],
     bootstrap: [
         AppComponent

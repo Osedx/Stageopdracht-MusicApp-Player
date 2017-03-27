@@ -8,6 +8,9 @@ import { NgSemanticModule } from 'ng-semantic';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 
+import { SettingService } from '../services/settings.service';
+import { DataService } from '../services/data.service';
+
 @NgModule({
     imports: [
         NgSemanticModule,
@@ -15,6 +18,7 @@ import { FooterComponent } from './footer/footer.component';
         CommonModule,
         HttpModule,
     ],
+    providers: [ SettingService, SettingService ],
     declarations: [
         HeaderComponent,
         FooterComponent,

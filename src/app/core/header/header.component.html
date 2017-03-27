@@ -3,8 +3,8 @@
     <img src='../../assets/img/logo.png'>
   </div>
   <div class='right menu'>
-  <a class='item' [routerLinkActiveOptions]='{ exact: true }' [routerLinkActive]='["active"]' [routerLink]='["/playlist"]'>Playlist</a>
-  <a class='item' [routerLinkActiveOptions]='{ exact: true }' [routerLinkActive]='["active"]' [routerLink]='["/toplist"]'>Toplist</a>
+  <a class='item' [routerLinkActiveOptions]='{ exact: true }' [routerLinkActive]='["active"]' [routerLink]='["/playlist"]' *ngIf='showToplist'>Playlist</a>
+  <a class='item' [routerLinkActiveOptions]='{ exact: true }' [routerLinkActive]='["active"]' [routerLink]='["/toplist"]' *ngIf='showToplist'>Toplist</a>
     </div>
 </div>
 <p></p>

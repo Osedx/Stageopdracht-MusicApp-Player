@@ -1,5 +1,7 @@
-import { Component, NgModule } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { SettingService } from '../../services/settings.service';
+import { DataService } from '../../services/data.service';
 
 @Component({
     selector: 'my-header',
@@ -7,4 +9,17 @@ import { Router } from '@angular/router';
     styleUrls: ['./header.component.css']
 })
 
-export class HeaderComponent {}
+export class HeaderComponent implements OnInit{
+    showToplist : boolean = false;
+constructor(public settingService: SettingService, public dataService: DataService) {}
+ngOnInit() {
+    this.getCountToplist();
+}
+    getCountToplist() {
+        this.dataService.getCountToplist().subscribe(
+            data => {
+            console.log(data);
+            console.log(this.settingService.showToplistCount);
+            if(data >= this.settingService.showToplistCount) this.showToplist = true; },
+    error => { console.log(error); } ); }
+}

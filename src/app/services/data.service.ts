@@ -22,4 +22,9 @@ export class DataService {
   public deleteRatings(id: String): Observable<any> {
     console.log(id);
     return this.http.delete(`/ratings/${id}`, this.options);
-  }}
+  }
+  public getCountToplist(): Observable<any> {
+          return this.http.get('https://musicwebapp.herokuapp.com/toplist/count')
+          .map((res) => res.json());
+  }
+}
