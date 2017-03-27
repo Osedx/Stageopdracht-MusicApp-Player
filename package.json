@@ -64,7 +64,7 @@
     "webdriver-manager": "./node_modules/.bin/webdriver-manager",
     "webdriver:start": "npm run webdriver-manager start",
     "webdriver:update": "webdriver-manager update",
-    "webpack-dev-server": "webpack-dev-server",
+    "webpack-dev-server": "./node_modules/.bin/webpack-dev-server",
     "webpack": "webpack"
   },
   "dependencies": {
@@ -93,8 +93,6 @@
     "rootpath": "^0.1.2",
     "rxjs": "5.0.2",
     "typescript": "^2.2.1",
-    "webpack": "^2.2.0",
-    "webpack-dev-server": "^2.4.1",
     "zone.js": "0.7.6",
       
     "@angular/compiler-cli": "2.4.6",
