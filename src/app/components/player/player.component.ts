@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 // import { myYoutubeSafeUrlPipe } from '../../pipes/youtube-safe-url.pipe';
 import { PlaylistState } from '../../services/playlist-state.service';
 import { Playlist } from '../models/playlist.model';
@@ -9,8 +9,9 @@ import { Playlist } from '../models/playlist.model';
     styleUrls: ['./player.component.css']
 })
 
-export class PlayerComponent {
+export class PlayerComponent implements OnInit {
     constructor( public playlistState: PlaylistState ) {}
+ngOnInit() {}
     public onStateChange(event) {
     if (event.data === 0) {
     this.nextVideo();

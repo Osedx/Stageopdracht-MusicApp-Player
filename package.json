@@ -33,8 +33,8 @@
     "e2e:live": "npm-run-all -p -r server:prod:ci protractor:live",
     "e2e:travis": "npm-run-all -p -r server:prod:ci protractor:delay",
     "e2e": "npm-run-all -p -r server:prod:ci protractor",
-    "github-deploy:dev": "webpack --config config/webpack.github-deploy.js --progress --profile --env.githubDev",
-    "github-deploy:prod": "webpack --config config/webpack.github-deploy.js --progress --profile --env.githubProd",
+    "github-deploy:dev": "./node_modules/.bin/webpack --config config/webpack.github-deploy.js --progress --profile --env.githubDev",
+    "github-deploy:prod": "./node_modules/.bin/webpack --config config/webpack.github-deploy.js --progress --profile --env.githubProd",
     "github-deploy": "npm run github-deploy:dev",
     "lint": "npm run tslint \"src/**/*.ts\"",
     "postinstall": "npm run webdriver:update",
@@ -65,7 +65,7 @@
     "webdriver:start": "npm run webdriver-manager start",
     "webdriver:update": "webdriver-manager update",
     "webpack-dev-server": "./node_modules/.bin/webpack-dev-server",
-    "webpack": "webpack"
+    "webpack": "./node_modules/.bin/webpack"
   },
   "dependencies": {
     "@angular/common": "2.4.6",

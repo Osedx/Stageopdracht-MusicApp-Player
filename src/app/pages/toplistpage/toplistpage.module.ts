@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { PlaylistPageComponent } from './playlistpage.component';
-import { PlaylistComponent } from '../../components/playlist/playlist.component';
+import { ToplistPageComponent } from './toplistpage.component';
+import { ToplistComponent } from '../../components/toplist/toplist.component';
 // import { PlaylistItemComponent } from '../../components/playlistitem/playlistitem.component';
 // import { PlayerComponent } from '../../components/player/player.component';
 // import { ActiveVideoInfoComponent } from
@@ -14,9 +14,9 @@ import { SharedModule } from '../shared/shared.module';
 @NgModule({
     imports: [ CommonModule, SharedModule ],
   providers: [ PlaylistState, DataService ],
-    declarations: [ PlaylistPageComponent,
-        PlaylistComponent ],
-    exports: [PlaylistPageComponent]
+    declarations: [ ToplistPageComponent,
+        ToplistComponent ],
+    exports: [ToplistPageComponent]
 })
 
-export class PlaylistPageModule { }
+export class ToplistPageModule { }

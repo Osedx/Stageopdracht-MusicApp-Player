@@ -14,33 +14,9 @@ import { PlaylistState } from '../../services/playlist-state.service';
 export class PlaylistItemComponent {
     @Input() public playlistitem: Playlist;
     @Input() public index: number;
- constructor( public playlistState: PlaylistState, public dataService: DataService ) {}
-
-    // calls the methods for deleting the playlistitem and associated ratings
-    public deleteFromPlaylist() {
-            this.deletePlaylistItem(this.playlistitem._id);
-            this.deleteRatings(this.playlistitem._id);
-    }
-    // delete the playlistitem by id
-    public deletePlaylistItem(id: String) {
-             this.dataService.deletePlaylistItem(id).subscribe(
-                (res) => { this.playlistState.playList.splice(this.index, 1);
-//                console.log(this.index);
-//                console.log(this.playlistitem);
-//                console.log('playlistitem succesfully deleted from database.', 'success');
-                },
-                (error) => { console.log(error); }
-              );
-    }
-    // delete all ratings with the given playlistitemid
-    public deleteRatings(id: String) {
-             this.dataService.deleteRatings(id).subscribe(
-                (res) => {
-                console.log('ratings succesfully deleted from database.', 'success');
-                },
-                (error) => { console.log(error); }
-              );
-    }
+ constructor( public playlistState: PlaylistState, public dataService: DataService ) {
+    console.log(this.playlistitem);
+ }
     // set the selected video as active
     public selectVideo() {
 if ( this.playlistState.activeVideo._id === this.playlistitem._id ) { return; }

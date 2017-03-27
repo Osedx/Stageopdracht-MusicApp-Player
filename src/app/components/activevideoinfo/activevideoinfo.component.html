@@ -4,6 +4,6 @@
             </div>
             <div  class="description" >
             <div>Added by {{playlistState.activeVideo.uploader}}</div>
-            <div>{{playlistState.activeVideo.rating}} likes</div>
+            <div *ngIf="playlistState.activeVideo.rating">{{playlistState.activeVideo.rating}} likes</div>
             </div>
     </div>

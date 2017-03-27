@@ -16,6 +16,10 @@ export class DataService {
           return this.http.get('https://musicwebapp.herokuapp.com/playlist')
           .map((res) => res.json());
   }
+  public getToplist(): Observable<any> {
+          return this.http.get('https://musicwebapp.herokuapp.com/toplist')
+          .map((res) => res.json());
+  }
   public deletePlaylistItem(id: String): Observable<any> {
     return this.http.delete(`/playlistitem/${id}`, this.options);
   }
