@@ -11,8 +11,6 @@ import { PlaylistState } from '../../services/playlist-state.service';
 import { DataService } from '../../services/data.service';
 import { YoutubePlayerModule } from 'ng2-youtube-player';
 
-// import { PipesModule } from '../../pipes';
-
 @NgModule({
     imports: [ CommonModule, YoutubePlayerModule ],
   providers: [ PlaylistState, DataService ],
