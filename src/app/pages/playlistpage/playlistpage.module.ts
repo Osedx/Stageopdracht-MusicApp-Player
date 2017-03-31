@@ -9,11 +9,13 @@ import { PlaylistComponent } from '../../components/playlist/playlist.component'
 import { PlaylistState } from '../../services/playlist-state.service';
 // import { myYoutubeSafeUrlPipe } from '../../pipes/youtube-safe-url.pipe';
 import { DataService } from '../../services/data.service';
+import { SocketService } from '../../services/socket.service';
+import { MessageService } from '../../services/message.service';
 import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
     imports: [ CommonModule, SharedModule ],
-  providers: [ PlaylistState, DataService ],
+  providers: [ PlaylistState, DataService, SocketService, MessageService ],
     declarations: [ PlaylistPageComponent,
         PlaylistComponent ],
     exports: [PlaylistPageComponent]

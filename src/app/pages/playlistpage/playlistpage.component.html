@@ -1,3 +1,7 @@
+<div class="ui message" *ngIf="messageService.showMessage">
+  <p>The playlist is no longer up to date.</p>
+  <i (click)="refreshList()" class="fa fa-refresh fa-2x" aria-hidden="true"></i>
+</div>
 <div class="ui container">
 <my-player></my-player>
 <my-playlist></my-playlist>

@@ -12,7 +12,6 @@ my-player {
     flex-direction: column;
 }
 
-
 @media (max-width: 700px) {
     .ui.container {
         flex-direction: column;

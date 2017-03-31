@@ -7,8 +7,14 @@
           {{playlistitem.title}}
         </div>
         <div class="info">
-        <div  class="description">
+        <div  class="description" *ngIf="playlistitem.uploader && playlistitem.uploader !== 'Toplist'">
           Added by {{playlistitem.uploader}}
+        </div>
+        <div  class="description" *ngIf="!playlistitem.uploader">
+          Added by Interim
+        </div>
+        <div  class="description" *ngIf="playlistitem.uploader && playlistitem.uploader === 'Toplist'">
+          Added from {{playlistitem.uploader}}
         </div>
         </div>
         <div class="right floated content">
