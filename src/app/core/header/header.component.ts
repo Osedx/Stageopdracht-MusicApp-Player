@@ -9,17 +9,18 @@ import { DataService } from '../../services/data.service';
     styleUrls: ['./header.component.css']
 })
 
-export class HeaderComponent implements OnInit{
-    showToplist : boolean = false;
+export class HeaderComponent implements OnInit {
+    public showToplist: boolean = false;
 constructor(public settingService: SettingService, public dataService: DataService) {}
-ngOnInit() {
+public ngOnInit() {
     this.getCountToplist();
 }
-    getCountToplist() {
+    public getCountToplist() {
         this.dataService.getCountToplist().subscribe(
-            data => {
+    (data) => {
             console.log(data);
             console.log(this.settingService.showToplistCount);
-            if(data >= this.settingService.showToplistCount) this.showToplist = true; },
-    error => { console.log(error); } ); }
+            if (data >= this.settingService.showToplistCount) {this.showToplist = true; }
+            },
+    (error) => {console.log(error); } ); }
 }

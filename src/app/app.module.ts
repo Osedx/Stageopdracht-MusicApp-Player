@@ -10,7 +10,7 @@ import { PagesModule } from './pages/pages.module';
 // import { PipesModule } from './pipes';
 import { AppComponent } from './app.component';
 
-import { APP_CONFIG, AppConfig } from "./app.config";
+import { APP_CONFIG, AppConfig } from './app.config';
 
 @NgModule({
     imports: [

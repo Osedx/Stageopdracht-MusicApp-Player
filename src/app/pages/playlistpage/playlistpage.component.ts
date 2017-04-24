@@ -7,8 +7,8 @@ import { MessageService } from '../../services/message.service';
   styleUrls: ['./playlistpage.component.css']
 })
 export class PlaylistPageComponent {
-    showUpdateMessage = false;
-    refreshPlayList = false;
+    private showUpdateMessage = false;
+    private refreshPlayList = false;
     constructor( public messageService: MessageService ) {}
 
     public refreshList() {
