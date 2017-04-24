@@ -29,7 +29,6 @@ export class PlayerComponent {
     this.playlistState.activeVideoPosition =
     this.playlistState.activeVideoPosition + 1;
     }
-    console.log(this.playlistState.activeVideoPosition);
     this.playlistState.activeVideo =
     this.playlistState.playList[this.playlistState.activeVideoPosition];
     this.playlistState.player.loadVideoById(
