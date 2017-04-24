@@ -18,8 +18,6 @@ public ngOnInit() {
     public getCountToplist() {
         this.dataService.getCountToplist().subscribe(
     (data) => {
-            console.log(data);
-            console.log(this.settingService.showToplistCount);
             if (data >= this.settingService.showToplistCount) {this.showToplist = true; }
             },
     (error) => {console.log(error); } ); }
