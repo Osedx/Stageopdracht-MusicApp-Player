@@ -13,7 +13,16 @@ export class PlayerComponent {
     constructor( public playlistState: PlaylistState ) {}
     public onStateChange(event) {
     if (event.data === 0) {
+    if (this.playlistState.shuffle) {
+    this.nextRandomVideo();
+    } else if (this.playlistState.loop) {
+    this.loopVideo();
+    } else {
     this.nextVideo();
+    }} else if (event.data === 2) {
+    this.playlistState.paused = true;
+    } else if (event.data === 1) {
+    this.playlistState.paused = false;
     }
     }
     public savePlayer(player) {
@@ -34,5 +43,28 @@ export class PlayerComponent {
     this.playlistState.player.loadVideoById(
     this.playlistState.playList[this.playlistState.activeVideoPosition]._id
         );
+    }
+    public nextRandomVideo() {
+    let randomIndex = this.getRandomIndex();
+    console.log(randomIndex);
+    if (this.playlistState.activeVideoPosition === randomIndex) {
+        return this.nextRandomVideo();
+    } else {
+    this.playlistState.activeVideoPosition = randomIndex;
+    this.playlistState.activeVideo =
+    this.playlistState.playList[this.playlistState.activeVideoPosition];
+    this.playlistState.player.loadVideoById(
+    this.playlistState.playList[this.playlistState.activeVideoPosition]._id
+    );
+    }
+    }
+    public getRandomIndex() {
+        const max = this.playlistState.playListSize;
+        const randomIndex = Math.floor(Math.random() * (max));
+        return randomIndex;
+    }
+    public loopVideo() {
+    this.playlistState.player.loadVideoById(
+        this.playlistState.playList[this.playlistState.activeVideoPosition]._id);
     }
 }

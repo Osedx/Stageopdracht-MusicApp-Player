@@ -66,13 +66,60 @@ export class PlaylistComponent implements OnDestroy, OnInit {
             this.playlistState.playList[this.playlistState.activeVideoPosition]._id );
             });
             },
-    (error) => { console.log(error); } ); }
+    (error) => { console.log(error); } );
+    }
 
+    public shuffle() {
+        this.playlistState.loop = false;
+        this.playlistState.shuffle = !this.playlistState.shuffle;
+    }
+    public loop() {
+        this.playlistState.shuffle = false;
+        this.playlistState.loop = !this.playlistState.loop;
+    }
+    public nextVideo() {
+    if (this.playlistState.activeVideoPosition + 1 ===
+    this.playlistState.playListSize) {
+    this.playlistState.activeVideoPosition = 0;
+    } else {
+    this.playlistState.activeVideoPosition =
+    this.playlistState.activeVideoPosition + 1;
+    }
+    this.playlistState.activeVideo =
+    this.playlistState.playList[this.playlistState.activeVideoPosition];
+    this.playlistState.player.loadVideoById(
+    this.playlistState.playList[this.playlistState.activeVideoPosition]._id
+        );
+    }
+    public previousVideo() {
+    if (this.playlistState.activeVideoPosition === 0) {
+    this.playlistState.activeVideoPosition = this.playlistState.playListSize - 1;
+    } else {
+    this.playlistState.activeVideoPosition =
+    this.playlistState.activeVideoPosition - 1;
+    }
+    this.playlistState.activeVideo =
+    this.playlistState.playList[this.playlistState.activeVideoPosition];
+    this.playlistState.player.loadVideoById(
+    this.playlistState.playList[this.playlistState.activeVideoPosition]._id
+        );
+    }
+    public changeState() {
+        this.playlistState.paused = !this.playlistState.paused;
+    }
+    public pause() {
+        this.playlistState.player.pauseVideo();
+        this.playlistState.paused = true;
+    }
+    public play() {
+        this.playlistState.player.playVideo();
+        this.playlistState.paused = false;
+    }
     private checkEnoughSongs() {
-                    this.lengthPlaylist = this.playlistState.playListSize;
-                    if ( this.lengthPlaylist <= this.settingService.addFromToplist ) {
-                            this.addFromToplist();
-                    }
+        this.lengthPlaylist = this.playlistState.playListSize;
+        if ( this.lengthPlaylist <= this.settingService.addFromToplist ) {
+        this.addFromToplist();
+        }
     }
 
     private addFromToplist() {

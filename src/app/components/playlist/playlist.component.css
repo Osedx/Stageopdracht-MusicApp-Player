@@ -10,16 +10,74 @@
     padding: 0;
 }
 .title{
-    height:50px;
+    height: 85px;
     min-width: 250px;
     background: white;
     color:black;
     font-weight: bold;
-    font-size: 1.3em;
+    font-size: 1.1em;
     text-align: center;
     margin: 0;
 }
+.title_name {
+    position: relative;
+    bottom: 10px;
+}
+.fa-refresh, .fa-random {
+    opacity: 0.4;
+    position: absolute;
+    top: 45px;
+}
+.fa-refresh:hover, .fa-random:hover {
+    cursor: pointer;
+}
+.fa-refresh:active, .fa-random:active {
+    opacity: 0.75;
+}
+.fa-refresh{
+    right: 15%;
+}
+.fa-random{
+    left: 15%;
+}
+.fa-play-circle-o, .fa-pause-circle-o {
+    position: relative;
+    bottom: 22px;
+    right: 0;
+    opacity: 0.85;
+}
 
+.fa-play-circle-o:hover, .fa-pause-circle-o:hover {
+    cursor: pointer;
+}
+
+.fa-play-circle-o:active, .fa-pause-circle-o:active {
+    opacity: 1;
+}
+
+.fa-caret-left, .fa-caret-right{
+    opacity: 0.75;
+    position: absolute;
+    top: 37px;
+}
+.fa-caret-left:active, .fa-caret-right:active {
+    opacity: 1;
+}
+.fa-caret-left:hover, .fa-caret-right:hover {
+    cursor:pointer;
+}
+.fa-caret-left{
+    left: 30%;
+}
+.fa-caret-right{
+    right: 30%;
+}
+.shuffle {
+    opacity: 1;
+}
+.loop {
+    opacity: 1;
+}
 ::-webkit-scrollbar {
     width: 0px;  /* remove scrollbar space */
     background: transparent;  /* optional: just make scrollbar invisible */
@@ -32,9 +90,8 @@
 @media (max-width: 700px) {
     .ui.relaxed.divided.list {
         border-left: 5px solid #555555;
-        border-bottom: 5px solid #555555;
         border-radius: 0 0 5px 5px;
-        height: calc(100vh - 430px);
+        height: calc(100vh - 455px);
     }
 }
 

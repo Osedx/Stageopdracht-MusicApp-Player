@@ -1,7 +1,7 @@
 /*
  * Angular bootstraping
  */
-import {enableProdMode} from '@angular/core';
+import { enableProdMode } from '@angular/core';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import { decorateModuleRef } from './app/environment';
 import { bootloader } from '@angularclass/hmr';
@@ -21,7 +21,7 @@ export function main(): Promise<any> {
     .catch((err) => console.error(err));
 }
 
-enableProdMode();
+// enableProdMode();
 // needed for hmr
 // in prod this is replace for document ready
 bootloader(main);

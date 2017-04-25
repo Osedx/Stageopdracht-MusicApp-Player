@@ -4,12 +4,13 @@ body {
 }
 
 .wrapper, main {
-    height:100%;
+    height: calc(100% - 68px);
     background-color: #363636;
 }
 
 .wrapper {
-    margin-top: 69px;
+    position: relative;
+    top: 68px;
 }
 
 main {

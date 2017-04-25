@@ -1,4 +1,12 @@
-<div class='title ui raised segment'>Playlist</div>
+<div class='title ui raised segment'>
+<p class="title_name">Playlist</p>
+<i class='fa fa-random' aria-hidden='true' [ngClass]='{"shuffle": playlistState.shuffle}' (click)='shuffle()'></i>
+<i class="fa fa-caret-left fa-2x" aria-hidden="true" (click)="previousVideo()"></i>
+<i class="fa fa-play-circle-o fa-3x" aria-hidden="true" *ngIf="playlistState.paused" (click)="play()"></i>
+<i class="fa fa-pause-circle-o fa-3x" aria-hidden="true" *ngIf="!playlistState.paused" (click)="pause()"></i>
+<i class="fa fa-caret-right fa-2x" aria-hidden="true" (click)="nextVideo()"></i>
+<i class='fa fa-refresh' aria-hidden='true' [ngClass]='{"loop": playlistState.loop}' (click)='loop()'></i>
+</div>
  <div class="ui relaxed divided list">
   <div class="item" *ngFor="let p of playlistState.playList; let i = index" [class.playing] = "p === playlistState.activeVideo">
       <my-playlistitem [playlistitem]="p" [index]="i"></my-playlistitem>

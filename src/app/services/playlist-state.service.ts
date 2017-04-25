@@ -9,6 +9,9 @@ export class PlaylistState {
     public playListSize: number;
     public activeVideo: Playlist;
     public activeVideoPosition: number;
+    public paused = false;
+    public shuffle = false;
+    public loop = false;
     public playerCreated: Subject<string> = new Subject<string>();
     public player: any;
 }
