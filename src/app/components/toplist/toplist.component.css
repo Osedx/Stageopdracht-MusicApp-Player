@@ -92,7 +92,7 @@
     .ui.relaxed.divided.list {
         border-left: 5px solid #555555;
         border-radius: 0 0 5px 5px;
-        height: calc(100vh - 455px);
+        height: calc(60vh - 155px)
     }
 }
 
