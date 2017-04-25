@@ -26,4 +26,11 @@ main {
         display: none;
     }
 }
+
+@media (min-width: 700px){
+    .wrapper {
+        padding-top: 25px;
+
+    }
+}
 /*# sourceMappingURL=app.component.css.map */
