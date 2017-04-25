@@ -21,7 +21,6 @@ export class ToplistComponent {
         this.dataservice.getToplist().subscribe(
         (data) => {
             this.playlistState.playList = data;
-            console.log('toplist');
             this.playlistState.playListSize = data.length;
             if (this.playlistState.playList.length > 0) {
                 this.playlistState.activeVideo = this.playlistState.playList[0];

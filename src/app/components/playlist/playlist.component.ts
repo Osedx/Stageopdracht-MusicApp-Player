@@ -57,7 +57,6 @@ export class PlaylistComponent implements OnDestroy, OnInit {
             this.playlistState.activeVideo = data[0];
             this.playlistState.activeVideoPosition = 0;
             this.playlistState.playList = data;
-            console.log(this.playlistState.playList);
             this.playlistState.playListSize = data.length;
             this.checkEnoughSongs();
             this.playlistState.playListFilled.next();
@@ -66,8 +65,7 @@ export class PlaylistComponent implements OnDestroy, OnInit {
             this.playlistState.playList[this.playlistState.activeVideoPosition]._id );
             });
             },
-    (error) => { console.log(error); } );
-    }
+    (error) => { console.log(error); } ); }
 
     public shuffle() {
         this.playlistState.loop = false;
@@ -115,11 +113,12 @@ export class PlaylistComponent implements OnDestroy, OnInit {
         this.playlistState.player.playVideo();
         this.playlistState.paused = false;
     }
+
     private checkEnoughSongs() {
-        this.lengthPlaylist = this.playlistState.playListSize;
-        if ( this.lengthPlaylist <= this.settingService.addFromToplist ) {
-        this.addFromToplist();
-        }
+                    this.lengthPlaylist = this.playlistState.playListSize;
+                    if ( this.lengthPlaylist <= this.settingService.addFromToplist ) {
+                            this.addFromToplist();
+                    }
     }
 
     private addFromToplist() {

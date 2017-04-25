@@ -45,6 +45,9 @@ var PlaylistState = (function () {
     function PlaylistState() {
         this.playListFilled = new __WEBPACK_IMPORTED_MODULE_2_rxjs_Subject__["Subject"]();
         this.playList = [];
+        this.paused = false;
+        this.shuffle = false;
+        this.loop = false;
         this.playerCreated = new __WEBPACK_IMPORTED_MODULE_2_rxjs_Subject__["Subject"]();
     }
     return PlaylistState;
@@ -198,7 +201,7 @@ SettingService = __WEBPACK_IMPORTED_MODULE_0_tslib__["a" /* __decorate */]([
 
 var APP_CONFIG = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["OpaqueToken"]('app.config');
 var AppConfig = {
-    showToplistCount: 10,
+    showToplistCount: 5,
     addFromToplist: 10,
     maxCheckAdding: 10
 };
@@ -680,7 +683,21 @@ var PlayerComponent = (function () {
     }
     PlayerComponent.prototype.onStateChange = function (event) {
         if (event.data === 0) {
-            this.nextVideo();
+            if (this.playlistState.shuffle) {
+                this.nextRandomVideo();
+            }
+            else if (this.playlistState.loop) {
+                this.loopVideo();
+            }
+            else {
+                this.nextVideo();
+            }
+        }
+        else if (event.data === 2) {
+            this.playlistState.paused = true;
+        }
+        else if (event.data === 1) {
+            this.playlistState.paused = false;
         }
     };
     PlayerComponent.prototype.savePlayer = function (player) {
@@ -699,6 +716,27 @@ var PlayerComponent = (function () {
         }
         this.playlistState.activeVideo =
             this.playlistState.playList[this.playlistState.activeVideoPosition];
+        this.playlistState.player.loadVideoById(this.playlistState.playList[this.playlistState.activeVideoPosition]._id);
+    };
+    PlayerComponent.prototype.nextRandomVideo = function () {
+        var randomIndex = this.getRandomIndex();
+        console.log(randomIndex);
+        if (this.playlistState.activeVideoPosition === randomIndex) {
+            return this.nextRandomVideo();
+        }
+        else {
+            this.playlistState.activeVideoPosition = randomIndex;
+            this.playlistState.activeVideo =
+                this.playlistState.playList[this.playlistState.activeVideoPosition];
+            this.playlistState.player.loadVideoById(this.playlistState.playList[this.playlistState.activeVideoPosition]._id);
+        }
+    };
+    PlayerComponent.prototype.getRandomIndex = function () {
+        var max = this.playlistState.playListSize;
+        var randomIndex = Math.floor(Math.random() * (max));
+        return randomIndex;
+    };
+    PlayerComponent.prototype.loopVideo = function () {
         this.playlistState.player.loadVideoById(this.playlistState.playList[this.playlistState.activeVideoPosition]._id);
     };
     return PlayerComponent;
@@ -779,7 +817,6 @@ var PlaylistComponent = (function () {
             _this.playlistState.activeVideo = data[0];
             _this.playlistState.activeVideoPosition = 0;
             _this.playlistState.playList = data;
-            console.log(_this.playlistState.playList);
             _this.playlistState.playListSize = data.length;
             _this.checkEnoughSongs();
             _this.playlistState.playListFilled.next();
@@ -787,6 +824,50 @@ var PlaylistComponent = (function () {
                 _this.playlistState.player.loadVideoById(_this.playlistState.playList[_this.playlistState.activeVideoPosition]._id);
             });
         }, function (error) { console.log(error); });
+    };
+    PlaylistComponent.prototype.shuffle = function () {
+        this.playlistState.loop = false;
+        this.playlistState.shuffle = !this.playlistState.shuffle;
+    };
+    PlaylistComponent.prototype.loop = function () {
+        this.playlistState.shuffle = false;
+        this.playlistState.loop = !this.playlistState.loop;
+    };
+    PlaylistComponent.prototype.nextVideo = function () {
+        if (this.playlistState.activeVideoPosition + 1 ===
+            this.playlistState.playListSize) {
+            this.playlistState.activeVideoPosition = 0;
+        }
+        else {
+            this.playlistState.activeVideoPosition =
+                this.playlistState.activeVideoPosition + 1;
+        }
+        this.playlistState.activeVideo =
+            this.playlistState.playList[this.playlistState.activeVideoPosition];
+        this.playlistState.player.loadVideoById(this.playlistState.playList[this.playlistState.activeVideoPosition]._id);
+    };
+    PlaylistComponent.prototype.previousVideo = function () {
+        if (this.playlistState.activeVideoPosition === 0) {
+            this.playlistState.activeVideoPosition = this.playlistState.playListSize - 1;
+        }
+        else {
+            this.playlistState.activeVideoPosition =
+                this.playlistState.activeVideoPosition - 1;
+        }
+        this.playlistState.activeVideo =
+            this.playlistState.playList[this.playlistState.activeVideoPosition];
+        this.playlistState.player.loadVideoById(this.playlistState.playList[this.playlistState.activeVideoPosition]._id);
+    };
+    PlaylistComponent.prototype.changeState = function () {
+        this.playlistState.paused = !this.playlistState.paused;
+    };
+    PlaylistComponent.prototype.pause = function () {
+        this.playlistState.player.pauseVideo();
+        this.playlistState.paused = true;
+    };
+    PlaylistComponent.prototype.play = function () {
+        this.playlistState.player.playVideo();
+        this.playlistState.paused = false;
     };
     PlaylistComponent.prototype.checkEnoughSongs = function () {
         this.lengthPlaylist = this.playlistState.playListSize;
@@ -945,7 +1026,6 @@ var ToplistComponent = (function () {
         var _this = this;
         this.dataservice.getToplist().subscribe(function (data) {
             _this.playlistState.playList = data;
-            console.log('toplist');
             _this.playlistState.playListSize = data.length;
             if (_this.playlistState.playList.length > 0) {
                 _this.playlistState.activeVideo = _this.playlistState.playList[0];
@@ -954,6 +1034,50 @@ var ToplistComponent = (function () {
             }
             _this.playlistState.playListFilled.next();
         }, function (error) { console.log(error); });
+    };
+    ToplistComponent.prototype.shuffle = function () {
+        this.playlistState.loop = false;
+        this.playlistState.shuffle = !this.playlistState.shuffle;
+    };
+    ToplistComponent.prototype.loop = function () {
+        this.playlistState.shuffle = false;
+        this.playlistState.loop = !this.playlistState.loop;
+    };
+    ToplistComponent.prototype.nextVideo = function () {
+        if (this.playlistState.activeVideoPosition + 1 ===
+            this.playlistState.playListSize) {
+            this.playlistState.activeVideoPosition = 0;
+        }
+        else {
+            this.playlistState.activeVideoPosition =
+                this.playlistState.activeVideoPosition + 1;
+        }
+        this.playlistState.activeVideo =
+            this.playlistState.playList[this.playlistState.activeVideoPosition];
+        this.playlistState.player.loadVideoById(this.playlistState.playList[this.playlistState.activeVideoPosition]._id);
+    };
+    ToplistComponent.prototype.previousVideo = function () {
+        if (this.playlistState.activeVideoPosition === 0) {
+            this.playlistState.activeVideoPosition = this.playlistState.playListSize - 1;
+        }
+        else {
+            this.playlistState.activeVideoPosition =
+                this.playlistState.activeVideoPosition - 1;
+        }
+        this.playlistState.activeVideo =
+            this.playlistState.playList[this.playlistState.activeVideoPosition];
+        this.playlistState.player.loadVideoById(this.playlistState.playList[this.playlistState.activeVideoPosition]._id);
+    };
+    ToplistComponent.prototype.changeState = function () {
+        this.playlistState.paused = !this.playlistState.paused;
+    };
+    ToplistComponent.prototype.pause = function () {
+        this.playlistState.player.pauseVideo();
+        this.playlistState.paused = true;
+    };
+    ToplistComponent.prototype.play = function () {
+        this.playlistState.player.playVideo();
+        this.playlistState.paused = false;
     };
     return ToplistComponent;
 }());
@@ -1308,7 +1432,7 @@ exports = module.exports = __webpack_require__(6)();
 
 
 // module
-exports.push([module.i, "body {\r\n  padding: 50px;\r\n  font: 14px \"Lucida Grande\", Helvetica, Arial, sans-serif;\r\n}\r\n\r\n.wrapper, main {\r\n    height:100%;\r\n    background-color: #363636;\r\n}\r\n\r\n.wrapper {\r\n    margin-top: 69px;\r\n}\r\n\r\nmain {\r\n    margin-bottom: 50px;\r\n}\r\n\r\n@media (max-width: 700px){\r\n    main {\r\n        height: auto;\r\n        margin:0;\r\n    }\r\n    .my-footer {\r\n        display: none;\r\n    }\r\n}\r\n/*# sourceMappingURL=app.component.css.map */", ""]);
+exports.push([module.i, "body {\r\n  padding: 50px;\r\n  font: 14px \"Lucida Grande\", Helvetica, Arial, sans-serif;\r\n}\r\n\r\n.wrapper, main {\r\n    height:calc(100% - 68px);\r\n    background-color: #363636;\r\n}\r\n\r\n.wrapper {\r\n    position: relative;\r\n    top: 68px;\r\n}\r\n\r\nmain {\r\n    margin-bottom: 50px;\r\n}\r\n\r\n@media (max-width: 700px){\r\n    main {\r\n        height: auto;\r\n        margin:0;\r\n    }\r\n    .my-footer {\r\n        display: none;\r\n    }\r\n}\r\n/*# sourceMappingURL=app.component.css.map */", ""]);
 
 // exports
 
@@ -1336,7 +1460,7 @@ exports = module.exports = __webpack_require__(6)();
 
 
 // module
-exports.push([module.i, ".playercontainer {\r\n    height:100%;\r\n    width: 100%;\r\n    border-right: 2px solid #555555;\r\n    border-left: 5px solid #555555;\r\n    border-radius: 5px 0 0 0;\r\n}\r\n\r\n@media (max-width: 700px) {\r\n    .playercontainer {\r\n        border: none;\r\n        height: 300px;\r\n    }\r\n\r\n}", ""]);
+exports.push([module.i, ".playercontainer {\r\n    height:100%;\r\n    width: 100%;\r\n    border-right: 2px solid #555555;\r\n    border-left: 5px solid #555555;\r\n    border-radius: 5px 0 0 0;\r\n}\r\n\r\n@media (max-width: 700px) {\r\n    .playercontainer {\r\n        border: none;\r\n    }\r\n\r\n}", ""]);
 
 // exports
 
@@ -1350,7 +1474,7 @@ exports = module.exports = __webpack_require__(6)();
 
 
 // module
-exports.push([module.i, ".ui.relaxed.divided.list {\r\n    margin: 0;\r\n    background-color: black;\r\n    border-right: 5px solid #555555;\r\n    border-radius: 0 5px 5px 0;\r\n    overflow-y: scroll;\r\n}\r\n\r\n.ui.relaxed.list:not(.horizontal)>.item {\r\n    padding: 0;\r\n}\r\n.title{\r\n    height:50px;\r\n    min-width: 250px;\r\n    background: white;\r\n    color:black;\r\n    font-weight: bold;\r\n    font-size: 1.3em;\r\n    text-align: center;\r\n    margin: 0;\r\n}\r\n\r\n::-webkit-scrollbar {\r\n    width: 0px;  /* remove scrollbar space */\r\n    background: transparent;  /* optional: just make scrollbar invisible */\r\n}\r\n/* optional: show position indicator in red */\r\n::-webkit-scrollbar-thumb {\r\n    background: #FF0000;\r\n}\r\n\r\n@media (max-width: 700px) {\r\n    .ui.relaxed.divided.list {\r\n        border-left: 5px solid #555555;\r\n        border-radius: 0 0 5px 5px;\r\n        height: calc(100vh - 430px);\r\n    }\r\n}\r\n\r\n@media (min-width: 700px) {\r\n    .ui.relaxed.divided.list {\r\n        height: 600px;\r\n    }\r\n}", ""]);
+exports.push([module.i, ".ui.relaxed.divided.list {\r\n    margin: 0;\r\n    background-color: black;\r\n    border-right: 5px solid #555555;\r\n    border-radius: 0 5px 5px 0;\r\n    overflow-y: scroll;\r\n}\r\n\r\n.ui.relaxed.list:not(.horizontal)>.item {\r\n    padding: 0;\r\n}\r\n.title{\r\n    height: 85px;\r\n    min-width: 250px;\r\n    background: white;\r\n    color:black;\r\n    font-weight: bold;\r\n    font-size: 1.1em;\r\n    text-align: center;\r\n    margin: 0;\r\n}\r\n.title_name {\r\n    position: relative;\r\n    bottom: 10px;\r\n}\r\n.fa-refresh, .fa-random {\r\n    opacity: 0.4;\r\n    position: absolute;\r\n    top: 45px;\r\n}\r\n.fa-refresh:hover, .fa-random:hover {\r\n    cursor: pointer;\r\n}\r\n.fa-refresh:active, .fa-random:active {\r\n    opacity: 0.75;\r\n}\r\n.fa-refresh{\r\n    right: 15%;\r\n}\r\n.fa-random{\r\n    left: 15%;\r\n}\r\n.fa-play-circle-o, .fa-pause-circle-o {\r\n    position: relative;\r\n    bottom: 22px;\r\n    right: 0;\r\n    opacity: 0.85;\r\n}\r\n\r\n.fa-play-circle-o:hover, .fa-pause-circle-o:hover {\r\n    cursor: pointer;\r\n}\r\n\r\n.fa-play-circle-o:active, .fa-pause-circle-o:active {\r\n    opacity: 1;\r\n}\r\n\r\n.fa-caret-left, .fa-caret-right{\r\n    opacity: 0.75;\r\n    position: absolute;\r\n    top: 37px;\r\n}\r\n.fa-caret-left:active, .fa-caret-right:active {\r\n    opacity: 1;\r\n}\r\n.fa-caret-left:hover, .fa-caret-right:hover {\r\n    cursor:pointer;\r\n}\r\n.fa-caret-left{\r\n    left: 30%;\r\n}\r\n.fa-caret-right{\r\n    right: 30%;\r\n}\r\n.shuffle {\r\n    opacity: 1;\r\n}\r\n.loop {\r\n    opacity: 1;\r\n}\r\n::-webkit-scrollbar {\r\n    width: 0px;  /* remove scrollbar space */\r\n    background: transparent;  /* optional: just make scrollbar invisible */\r\n}\r\n/* optional: show position indicator in red */\r\n::-webkit-scrollbar-thumb {\r\n    background: #FF0000;\r\n}\r\n\r\n@media (max-width: 700px) {\r\n    .ui.relaxed.divided.list {\r\n        border-left: 5px solid #555555;\r\n        border-radius: 0 0 5px 5px;\r\n        height: calc(60vh - 155px)\r\n    }\r\n}\r\n\r\n@media (min-width: 700px) {\r\n    .ui.relaxed.divided.list {\r\n        height: 600px;\r\n    }\r\n}", ""]);
 
 // exports
 
@@ -1378,7 +1502,7 @@ exports = module.exports = __webpack_require__(6)();
 
 
 // module
-exports.push([module.i, ".ui.relaxed.divided.list {\r\n    margin: 0;\r\n    background-color: black;\r\n    border-right: 5px solid #555555;\r\n    border-radius: 0 5px 5px 0;\r\n    overflow-y: scroll;\r\n}\r\n\r\n.ui.relaxed.list:not(.horizontal)>.item {\r\n    padding: 0;\r\n}\r\n.title{\r\n    height:50px;\r\n    min-width: 250px;\r\n    background: white;\r\n    color:black;\r\n    font-weight: bold;\r\n    font-size: 1.3em;\r\n    text-align: center;\r\n    margin: 0;\r\n}\r\n\r\n::-webkit-scrollbar {\r\n    width: 0px;  /* remove scrollbar space */\r\n    background: transparent;  /* optional: just make scrollbar invisible */\r\n}\r\n/* optional: show position indicator in red */\r\n::-webkit-scrollbar-thumb {\r\n    background: #FF0000;\r\n}\r\n\r\n@media (max-width: 700px) {\r\n    .ui.relaxed.divided.list {\r\n        border-left: 5px solid #555555;\r\n        border-radius: 0 0 5px 5px;\r\n        height: calc(100vh - 430px);\r\n    }\r\n}\r\n\r\n@media (min-width: 700px) {\r\n    .ui.relaxed.divided.list {\r\n        height: 600px;\r\n    }\r\n}", ""]);
+exports.push([module.i, ".ui.relaxed.divided.list {\r\n    margin: 0;\r\n    background-color: black;\r\n    border-right: 5px solid #555555;\r\n    border-radius: 0 5px 5px 0;\r\n    overflow-y: scroll;\r\n}\r\n\r\n.ui.relaxed.list:not(.horizontal)>.item {\r\n    padding: 0;\r\n}\r\n.title{\r\n    height:85px;\r\n    min-width: 250px;\r\n    background: white;\r\n    color:black;\r\n    font-weight: bold;\r\n    font-size: 1.1em;\r\n    text-align: center;\r\n    margin: 0;\r\n}\r\n.title_name {\r\n    position: relative;\r\n    bottom: 10px;\r\n}\r\n.fa-refresh, .fa-random {\r\n    opacity: 0.4;\r\n    position: absolute;\r\n    top: 45px;\r\n}\r\n.fa-refresh:hover, .fa-random:hover {\r\n    cursor: pointer;\r\n}\r\n.fa-refresh:active, .fa-random:active {\r\n    opacity: 0.75;\r\n}\r\n.fa-refresh{\r\n    right: 15%;\r\n}\r\n.fa-random{\r\n    left: 15%;\r\n}\r\n.fa-play-circle-o, .fa-pause-circle-o {\r\n    position: relative;\r\n    bottom: 22px;\r\n    right: 0;\r\n    opacity: 0.85;\r\n}\r\n\r\n.fa-play-circle-o:hover, .fa-pause-circle-o:hover {\r\n    cursor: pointer;\r\n}\r\n\r\n.fa-play-circle-o:active, .fa-pause-circle-o:active {\r\n    opacity: 1;\r\n}\r\n\r\n.fa-caret-left, .fa-caret-right{\r\n    opacity: 0.75;\r\n    position: absolute;\r\n    top: 37px;\r\n}\r\n.fa-caret-left:active, .fa-caret-right:active {\r\n    opacity: 1;\r\n}\r\n.fa-caret-left:hover, .fa-caret-right:hover {\r\n    cursor:pointer;\r\n}\r\n.fa-caret-left{\r\n    left: 30%;\r\n}\r\n.fa-caret-right{\r\n    right: 30%;\r\n}\r\n.shuffle {\r\n    opacity: 1;\r\n}\r\n.loop {\r\n    opacity: 1;\r\n}\r\n\r\n::-webkit-scrollbar {\r\n    width: 0px;  /* remove scrollbar space */\r\n    background: transparent;  /* optional: just make scrollbar invisible */\r\n}\r\n/* optional: show position indicator in red */\r\n::-webkit-scrollbar-thumb {\r\n    background: #FF0000;\r\n}\r\n\r\n@media (max-width: 700px) {\r\n    .ui.relaxed.divided.list {\r\n        border-left: 5px solid #555555;\r\n        border-radius: 0 0 5px 5px;\r\n        height: calc(60vh - 155px)\r\n    }\r\n}\r\n\r\n@media (min-width: 700px) {\r\n    .ui.relaxed.divided.list {\r\n        height: 600px;\r\n    }\r\n}", ""]);
 
 // exports
 
@@ -1392,7 +1516,7 @@ exports = module.exports = __webpack_require__(6)();
 
 
 // module
-exports.push([module.i, ".footer {\r\n    overflow: hidden;\r\n\r\n    color: white;\r\n    background: #363636;\r\n}\r\n\r\n.footer-title {\r\n    margin-bottom: 1.875rem;\r\n}\r\n\r\n.footer-column {\r\n    margin-bottom: 1.875rem;\r\n}\r\n\r\n.footer-bottom {\r\n    position: relative;\r\n    height: 3rem;\r\n\r\n    padding: .5rem 0;\r\n\r\n    font-size: 0.75rem;\r\n    text-align: center;\r\n\r\n    color: lightgrey;\r\n    background: black;\r\n}\r\n\r\n.footer-copyright {\r\n    position: absolute;\r\n    top: 50%;\r\n    left: 50%;\r\n\r\n    width: 100%;\r\n    padding: 0 5rem;\r\n\r\n    transform: translate(-50%, -50%);\r\n}\r\n", ""]);
+exports.push([module.i, ".footer {\r\n    overflow: hidden;\r\n\r\n    color: white;\r\n    background: #363636;\r\n}\r\n\r\n.footer-title {\r\n    margin-bottom: 1.875rem;\r\n}\r\n\r\n.footer-column {\r\n    margin-bottom: 1.875rem;\r\n}\r\n\r\n.footer-bottom {\r\n    position: relative;\r\n    height: 3rem;\r\n\r\n    padding: .5rem 0;\r\n\r\n    font-size: 0.75rem;\r\n    text-align: center;\r\n\r\n    color: lightgrey;\r\n    background: black;\r\n\r\n    margin-top: 100px;\r\n}\r\n\r\n.footer-copyright {\r\n    position: absolute;\r\n    top: 50%;\r\n    left: 50%;\r\n\r\n    width: 100%;\r\n    padding: 0 5rem;\r\n\r\n    transform: translate(-50%, -50%);\r\n}\r\n", ""]);
 
 // exports
 
@@ -1420,7 +1544,7 @@ exports = module.exports = __webpack_require__(6)();
 
 
 // module
-exports.push([module.i, ".ui.container {\r\n    display: flex;\r\n    justify-content: flex-end;\r\n    position: relative;\r\n}\r\n\r\nmy-player {\r\n    width: 100%;\r\n    background-color: black;\r\n    display: flex;\r\n    flex-direction: column;\r\n}\r\n\r\n.ui.message {\r\n    width: 100%;\r\n}\r\n\r\n.ui.message p:first-child {\r\n    display: inline;\r\n    padding-right: 5%;\r\n}\r\n.fa-refresh {\r\n    opacity: 0.4;\r\n    display: inline;\r\n    color:black;\r\n    position: absolute;\r\n    right: 10px;\r\n    top: 10px;\r\n}\r\n.fa-refresh {\r\n    display: inline;\r\n    color:black;\r\n    position: absolute;\r\n    right: 10px;\r\n    top: 10px;\r\n}\r\n\r\n.fa-refresh:hover{\r\n    opacity: 0.65;\r\n    cursor: pointer;\r\n}\r\n\r\n@media (max-width: 700px) {\r\n    .ui.container {\r\n        flex-direction: column;\r\n        height: 100%;\r\n        margin: 0!important;\r\n    }\r\n    my-player {\r\n        height: 300px;\r\n    }\r\n}", ""]);
+exports.push([module.i, ".ui.container {\r\n    display: flex;\r\n    justify-content: flex-end;\r\n    position: relative;\r\n}\r\n\r\nmy-player {\r\n    width: 100%;\r\n    background-color: black;\r\n    display: flex;\r\n    flex-direction: column;\r\n}\r\n\r\n.ui.message {\r\n    width: 100%;\r\n}\r\n\r\n.ui.message p:first-child {\r\n    display: inline;\r\n    padding-right: 5%;\r\n}\r\n.fa-refresh {\r\n    opacity: 0.4;\r\n    display: inline;\r\n    color:black;\r\n    position: absolute;\r\n    right: 10px;\r\n    top: 10px;\r\n}\r\n.fa-refresh {\r\n    display: inline;\r\n    color:black;\r\n    position: absolute;\r\n    right: 10px;\r\n    top: 10px;\r\n}\r\n\r\n.fa-refresh:hover{\r\n    opacity: 0.65;\r\n    cursor: pointer;\r\n}\r\n\r\n@media (max-width: 700px) {\r\n    .ui.container {\r\n        flex-direction: column;\r\n        height: 100%;\r\n        margin: 0!important;\r\n    }\r\n    my-player {\r\n        height: 40vh;\r\n    }\r\n}", ""]);
 
 // exports
 
@@ -1434,7 +1558,7 @@ exports = module.exports = __webpack_require__(6)();
 
 
 // module
-exports.push([module.i, ".ui.container {\r\n    display: flex;\r\n    justify-content: flex-end;\r\n    position: relative;\r\n}\r\n\r\nmy-player {\r\n    width: 100%;\r\n    background-color: black;\r\n    display: flex;\r\n    flex-direction: column;\r\n}\r\n\r\n@media (max-width: 700px) {\r\n    .ui.container {\r\n        flex-direction: column;\r\n        height: 100%;\r\n        margin: 0!important;\r\n    }\r\n    my-player {\r\n        height: 300px;\r\n    }\r\n}", ""]);
+exports.push([module.i, ".ui.container {\r\n    display: flex;\r\n    justify-content: flex-end;\r\n    position: relative;\r\n}\r\n\r\nmy-player {\r\n    width: 100%;\r\n    background-color: black;\r\n    display: flex;\r\n    flex-direction: column;\r\n}\r\n\r\n@media (max-width: 700px) {\r\n    .ui.container {\r\n        flex-direction: column;\r\n        height: 100%;\r\n        margin: 0!important;\r\n    }\r\n    my-player {\r\n        height: 40vh;\r\n    }\r\n}", ""]);
 
 // exports
 
@@ -1475,7 +1599,7 @@ module.exports = "<!--\r\n<iframe #playlistplayer \r\n        id=\"playlistplaye
 /* 153 */
 /***/ (function(module, exports) {
 
-module.exports = "<div class='title ui raised segment'>Playlist</div>\r\n <div class=\"ui relaxed divided list\">\r\n  <div class=\"item\" *ngFor=\"let p of playlistState.playList; let i = index\" [class.playing] = \"p === playlistState.activeVideo\">\r\n      <my-playlistitem [playlistitem]=\"p\" [index]=\"i\"></my-playlistitem>\r\n  </div>\r\n</div>"
+module.exports = "<div class='title ui raised segment toplist_title'>\r\n<p class=\"title_name\">Playlist</p>\r\n<i class='fa fa-random' aria-hidden='true' [ngClass]='{\"shuffle\": playlistState.shuffle}' (click)='shuffle()'></i>\r\n<i class=\"fa fa-caret-left fa-2x\" aria-hidden=\"true\" (click)=\"previousVideo()\"></i>\r\n<i class=\"fa fa-play-circle-o fa-3x\" aria-hidden=\"true\" *ngIf=\"playlistState.paused\" (click)=\"play()\"></i>\r\n<i class=\"fa fa-pause-circle-o fa-3x\" aria-hidden=\"true\" *ngIf=\"!playlistState.paused\" (click)=\"pause()\"></i>\r\n<i class=\"fa fa-caret-right fa-2x\" aria-hidden=\"true\" (click)=\"nextVideo()\"></i>\r\n<i class='fa fa-refresh' aria-hidden='true' [ngClass]='{\"loop\": playlistState.loop}' (click)='loop()'></i>\r\n</div>\r\n <div class=\"ui relaxed divided list\">\r\n  <div class=\"item\" *ngFor=\"let p of playlistState.playList; let i = index\" [class.playing] = \"p === playlistState.activeVideo\">\r\n      <my-playlistitem [playlistitem]=\"p\" [index]=\"i\"></my-playlistitem>\r\n  </div>\r\n</div>\r\n"
 
 /***/ }),
 /* 154 */
@@ -1487,7 +1611,7 @@ module.exports = "<div class=\"playlistflexcontainer\" (click)=\"selectVideo()\"
 /* 155 */
 /***/ (function(module, exports) {
 
-module.exports = "<div class='title ui raised segment'>Toplist</div>\r\n <div class=\"ui relaxed divided list\">\r\n  <div class=\"item\" *ngFor=\"let p of playlistState.playList; let i = index\" [class.playing] = \"p === playlistState.activeVideo\">\r\n      <my-playlistitem [playlistitem]=\"p\" [index]=\"i\"></my-playlistitem>\r\n  </div>\r\n</div>\r\n"
+module.exports = "<div class='title ui raised segment toplist_title'>\r\n<p class=\"title_name\">Toplist</p>\r\n<i class='fa fa-random' aria-hidden='true' [ngClass]='{\"shuffle\": playlistState.shuffle}' (click)='shuffle()'></i>\r\n<i class=\"fa fa-caret-left fa-2x\" aria-hidden=\"true\" (click)=\"previousVideo()\"></i>\r\n<i class=\"fa fa-play-circle-o fa-3x\" aria-hidden=\"true\" *ngIf=\"playlistState.paused\" (click)=\"play()\"></i>\r\n<i class=\"fa fa-pause-circle-o fa-3x\" aria-hidden=\"true\" *ngIf=\"!playlistState.paused\" (click)=\"pause()\"></i>\r\n<i class=\"fa fa-caret-right fa-2x\" aria-hidden=\"true\" (click)=\"nextVideo()\"></i>\r\n<i class='fa fa-refresh' aria-hidden='true' [ngClass]='{\"loop\": playlistState.loop}' (click)='loop()'></i>\r\n</div>\r\n <div class=\"ui relaxed divided list\">\r\n  <div class=\"item\" *ngFor=\"let p of playlistState.playList; let i = index\" [class.playing] = \"p === playlistState.activeVideo\">\r\n      <my-playlistitem [playlistitem]=\"p\" [index]=\"i\"></my-playlistitem>\r\n  </div>\r\n</div>\r\n"
 
 /***/ }),
 /* 156 */
@@ -1499,7 +1623,7 @@ module.exports = "<footer class='footer'>\r\n\r\n    <!-- Disclaimer -->\r\n    
 /* 157 */
 /***/ (function(module, exports) {
 
-module.exports = "<div class='ui top fixed menu'>\r\n  <div class='item logo'>\r\n    <img src='../../assets/img/logo.png'>\r\n  </div>\r\n  <div class='right menu'>\r\n  <a class='item' [routerLinkActiveOptions]='{ exact: true }' [routerLinkActive]='[\"active\"]' [routerLink]='[\"/playlist\"]' *ngIf='showToplist'>Playlist</a>\r\n  <a class='item' [routerLinkActiveOptions]='{ exact: true }' [routerLinkActive]='[\"active\"]' [routerLink]='[\"/toplist\"]' *ngIf='showToplist'>Toplist</a>\r\n    </div>\r\n</div>\r\n<p></p>\r\n<p></p>"
+module.exports = "<div class='ui top fixed menu'>\r\n  <div class='item logo'>\r\n    <img src='../../assets/img/logo.png'>\r\n  </div>\r\n  <div class='right menu'>\r\n  <a class='item' [routerLinkActiveOptions]='{ exact: true }' [routerLinkActive]='[\"active\"]' [routerLink]='[\"/playlist\"]' *ngIf='showToplist'>Playlist</a>\r\n  <a class='item' [routerLinkActiveOptions]='{ exact: true }' [routerLinkActive]='[\"active\"]' [routerLink]='[\"/toplist\"]' *ngIf='showToplist'>Toplist</a>\r\n    </div>\r\n</div>\r\n"
 
 /***/ }),
 /* 158 */
@@ -1844,17 +1968,12 @@ module.exports = (__webpack_require__(5))(819);
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_platform_browser_dynamic__ = __webpack_require__(102);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__app_environment__ = __webpack_require__(83);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angularclass_hmr__ = __webpack_require__(103);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angularclass_hmr___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__angularclass_hmr__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__app_app_module__ = __webpack_require__(82);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser_dynamic__ = __webpack_require__(102);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__app_environment__ = __webpack_require__(83);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angularclass_hmr__ = __webpack_require__(103);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angularclass_hmr___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__angularclass_hmr__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__app_app_module__ = __webpack_require__(82);
 /* harmony export (immutable) */ __webpack_exports__["main"] = main;
-/*
- * Angular bootstraping
- */
-
 
 
 
@@ -1867,8 +1986,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
  * Bootstrap our Angular app with a top level NgModule
  */
 function main() {
-    return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__angular_platform_browser_dynamic__["platformBrowserDynamic"])()
-        .bootstrapModule(__WEBPACK_IMPORTED_MODULE_4__app_app_module__["a" /* AppModule */]).then(function(MODULE_REF) {
+    return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_platform_browser_dynamic__["platformBrowserDynamic"])()
+        .bootstrapModule(__WEBPACK_IMPORTED_MODULE_3__app_app_module__["a" /* AppModule */]).then(function(MODULE_REF) {
   if (false) {
     module["hot"]["accept"]();
     
@@ -1898,13 +2017,13 @@ function main() {
   }
   return MODULE_REF;
 })
-        .then(__WEBPACK_IMPORTED_MODULE_2__app_environment__["a" /* decorateModuleRef */])
+        .then(__WEBPACK_IMPORTED_MODULE_1__app_environment__["a" /* decorateModuleRef */])
         .catch(function (err) { return console.error(err); });
 }
-__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["enableProdMode"])();
+// enableProdMode();
 // needed for hmr
 // in prod this is replace for document ready
-__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__angularclass_hmr__["bootloader"])(main);
+__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__angularclass_hmr__["bootloader"])(main);
 
 
 /***/ })
