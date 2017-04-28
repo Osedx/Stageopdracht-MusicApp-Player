@@ -42,14 +42,14 @@ export class PlaylistComponent implements OnDestroy, OnInit {
     if (typeof this._subscription !== 'undefined') {this._subscription.unsubscribe(); }
     if (typeof this._subscriptionPlayer !== 'undefined') {this._subscriptionPlayer.unsubscribe(); }
     }
-
+    // show refresh popup
     public showUpdateMessage() {
         this.messageService.showMessage = true;
         this._subscription = this.messageService.updateList.subscribe(() => {
             this.getPlaylist();
         });
     }
-
+    // Get playlist from database
     public getPlaylist() {
         this.dataservice.getPlaylist().subscribe(
         (data) => {
@@ -57,10 +57,7 @@ export class PlaylistComponent implements OnDestroy, OnInit {
             this.playlistState.playListSize = data.length;
             this.playlistState.playListFilled.next();
             if (this.playlistState.player) {
-            console.log(this.playlistState.activeVideo._id);
-            console.log(this.playlistState.playList[this.playlistState.activeVideoPosition]._id);
                 if (this.playlistState.activeVideo._id !== this.playlistState.playList[this.playlistState.activeVideoPosition]._id) {
-                    console.log("in");
                     this.playlistState.activeVideo =
                     this.playlistState.playList[this.playlistState.activeVideoPosition];
                     this.playlistState.player.loadVideoById(
@@ -76,15 +73,17 @@ export class PlaylistComponent implements OnDestroy, OnInit {
             this.checkEnoughSongs();
             },
     (error) => { console.log(error); } ); }
-
+    // enable/disable shuffle
     public shuffle() {
         this.playlistState.loop = false;
         this.playlistState.shuffle = !this.playlistState.shuffle;
     }
+    // enable/disable loop
     public loop() {
         this.playlistState.shuffle = false;
         this.playlistState.loop = !this.playlistState.loop;
     }
+    // play next video
     public nextVideo() {
     if (this.playlistState.activeVideoPosition + 1 ===
     this.playlistState.playListSize) {
@@ -99,6 +98,7 @@ export class PlaylistComponent implements OnDestroy, OnInit {
     this.playlistState.playList[this.playlistState.activeVideoPosition]._id
         );
     }
+    // play previous video
     public previousVideo() {
     if (this.playlistState.activeVideoPosition === 0) {
     this.playlistState.activeVideoPosition = this.playlistState.playListSize - 1;
@@ -112,18 +112,21 @@ export class PlaylistComponent implements OnDestroy, OnInit {
     this.playlistState.playList[this.playlistState.activeVideoPosition]._id
         );
     }
+    // pause/unpause video
     public changeState() {
         this.playlistState.paused = !this.playlistState.paused;
     }
+    // pause video
     public pause() {
         this.playlistState.player.pauseVideo();
         this.playlistState.paused = true;
     }
+    // play video
     public play() {
         this.playlistState.player.playVideo();
         this.playlistState.paused = false;
     }
-
+    // check if playlist has enough songs
     private checkEnoughSongs() {
                     this.lengthPlaylist = this.playlistState.playListSize;
                     if ( this.lengthPlaylist <= this.settingService.addFromToplist ) {

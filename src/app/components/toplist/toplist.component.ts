@@ -17,6 +17,7 @@ export class ToplistComponent {
         this.playlistState.activeVideoPosition = 0;
         this.getToplist();
     }
+    //get Toplist from database
     public getToplist() {
         this.dataservice.getToplist().subscribe(
         (data) => {
@@ -31,15 +32,18 @@ export class ToplistComponent {
             },
     (error) => { console.log(error); } );
     }
-
+    
+    // enable/disable shuffle
     public shuffle() {
         this.playlistState.loop = false;
         this.playlistState.shuffle = !this.playlistState.shuffle;
     }
+    // enable/disable loop
     public loop() {
         this.playlistState.shuffle = false;
         this.playlistState.loop = !this.playlistState.loop;
     }
+    // play next video
     public nextVideo() {
     if (this.playlistState.activeVideoPosition + 1 ===
     this.playlistState.playListSize) {
@@ -54,6 +58,7 @@ export class ToplistComponent {
     this.playlistState.playList[this.playlistState.activeVideoPosition]._id
         );
     }
+    // play previous video
     public previousVideo() {
     if (this.playlistState.activeVideoPosition === 0) {
     this.playlistState.activeVideoPosition = this.playlistState.playListSize - 1;
@@ -67,13 +72,17 @@ export class ToplistComponent {
     this.playlistState.playList[this.playlistState.activeVideoPosition]._id
         );
     }
+    
+    // pause/unpasue video
     public changeState() {
         this.playlistState.paused = !this.playlistState.paused;
     }
+    // pause video
     public pause() {
         this.playlistState.player.pauseVideo();
         this.playlistState.paused = true;
     }
+    // play video
     public play() {
         this.playlistState.player.playVideo();
         this.playlistState.paused = false;
