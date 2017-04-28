@@ -60,10 +60,14 @@ export class PlaylistComponent implements OnDestroy, OnInit {
             this.playlistState.playListSize = data.length;
             this.checkEnoughSongs();
             this.playlistState.playListFilled.next();
+            if (this.playlistState.player) {
+                this.playlistState.player.loadVideoById(
+                this.playlistState.playList[this.playlistState.activeVideoPosition]._id );
+            } else {
             this._subscriptionPlayer = this.playlistState.playerCreated.subscribe(() => {
             this.playlistState.player.loadVideoById(
             this.playlistState.playList[this.playlistState.activeVideoPosition]._id );
-            });
+            }); }
             },
     (error) => { console.log(error); } ); }
 

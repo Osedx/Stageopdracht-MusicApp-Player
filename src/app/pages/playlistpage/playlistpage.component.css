@@ -12,6 +12,7 @@ my-player {
 }
 
 .ui.message {
+    margin-bottom: 0;
     width: 100%;
 }
 
@@ -48,5 +49,11 @@ my-player {
     }
     my-player {
         height: 40vh;
+    }
+}
+
+@media (min-width: 700px){
+    .ui.container {
+        padding-top: 25px;
     }
 }

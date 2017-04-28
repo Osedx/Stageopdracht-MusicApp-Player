@@ -9,11 +9,11 @@ export let APP_CONFIG = new OpaqueToken('app.config');
 export interface IAppConfig {
     showToplistCount: number;
     addFromToplist: number;
-maxCheckAdding: number;
+    maxCheckAdding: number;
 }
 
 export const AppConfig: IAppConfig = {
     showToplistCount: 10,
     addFromToplist: 10,
-    maxCheckAdding: 10
+    maxCheckAdding: 10,
 };

@@ -94,6 +94,9 @@
         border-radius: 0 0 5px 5px;
         height: calc(60vh - 155px)
     }
+    .title {
+        border-radius: inherit;
+    }
 }
 
 @media (min-width: 700px) {

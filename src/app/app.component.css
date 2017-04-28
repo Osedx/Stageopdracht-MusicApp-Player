@@ -14,6 +14,7 @@ body {
 }
 
 main {
+    height: auto;
     margin-bottom: 50px;
 }
 
@@ -27,10 +28,4 @@ main {
     }
 }
 
-@media (min-width: 700px){
-    .wrapper {
-        padding-top: 25px;
-
-    }
-}
 /*# sourceMappingURL=app.component.css.map */

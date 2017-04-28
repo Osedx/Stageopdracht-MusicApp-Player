@@ -4,6 +4,10 @@
             </div>
             <div  class="description" >
             <div>Added by {{playlistState.activeVideo.uploader}}</div>
-            <div *ngIf="playlistState.activeVideo.rating">{{playlistState.activeVideo.rating}} likes</div>
+            <div *ngIf="playlistState.activeVideo?.rating > 1">{{playlistState.activeVideo.rating}} likes</div>
+            <div *ngIf="playlistState.activeVideo?.rating == 1">{{playlistState.activeVideo.rating}} like</div>
+            <div *ngIf="playlistState.activeVideo?.rating == 0">no likes</div>
+            <div *ngIf="playlistState.activeVideo?.rating == -1">{{playlistState.activeVideo.rating}} dislike</div>
+            <div *ngIf="playlistState.activeVideo?.rating < -1">{{playlistState.activeVideo.rating}} dislikes</div>
             </div>
     </div>

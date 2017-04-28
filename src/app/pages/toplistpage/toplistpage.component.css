@@ -21,3 +21,9 @@ my-player {
         height: 40vh;
     }
 }
+
+@media (min-width: 700px){
+    .ui.container {
+        padding-top: 25px;
+    }
+}
