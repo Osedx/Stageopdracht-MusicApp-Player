@@ -7,7 +7,7 @@ import { PlayerComponent } from '../../components/player/player.component';
 import { ActiveVideoInfoComponent } from
 '../../components/activevideoinfo/activevideoinfo.component';
 
-import { YoutubePlayerModule } from 'ng2-youtube-player';
+import { YoutubePlayerModule } from '../../player/index';
 
 @NgModule({
     imports: [CommonModule, YoutubePlayerModule],
