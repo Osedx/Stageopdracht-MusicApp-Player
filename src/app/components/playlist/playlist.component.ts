@@ -56,7 +56,7 @@ export class PlaylistComponent implements OnDestroy, OnInit {
             this.playlistState.playList = data;
             this.playlistState.playListSize = data.length;
             this.playlistState.playListFilled.next();
-            if (this.playlistState.player) {
+            if (typeof this.playlistState.player != "undefined") {
                 if (this.playlistState.activeVideo._id !== this.playlistState.playList[this.playlistState.activeVideoPosition]._id) {
                     this.playlistState.activeVideo =
                     this.playlistState.playList[this.playlistState.activeVideoPosition];
@@ -126,7 +126,7 @@ export class PlaylistComponent implements OnDestroy, OnInit {
         this.playlistState.player.playVideo();
         this.playlistState.paused = false;
     }
-    // check if playlist has enough songs
+    // check if playlist has enough songs video
     private checkEnoughSongs() {
                     this.lengthPlaylist = this.playlistState.playListSize;
                     if ( this.lengthPlaylist <= this.settingService.addFromToplist ) {
