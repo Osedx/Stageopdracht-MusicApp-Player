@@ -54,20 +54,27 @@ export class PlaylistComponent implements OnDestroy, OnInit {
     public getPlaylist() {
         this.dataservice.getPlaylist().subscribe(
         (data) => {
-            this.playlistState.activeVideo = data[0];
-            this.playlistState.activeVideoPosition = 0;
             this.playlistState.playList = data;
             this.playlistState.playListSize = data.length;
-            this.checkEnoughSongs();
             this.playlistState.playListFilled.next();
             if (this.playlistState.player) {
-                this.playlistState.player.loadVideoById(
-                this.playlistState.playList[this.playlistState.activeVideoPosition]._id );
+            console.log(this.playlistState.activeVideo._id);
+            console.log(this.playlistState.playList[this.playlistState.activeVideoPosition]._id);
+                if (this.playlistState.activeVideo._id !== this.playlistState.playList[this.playlistState.activeVideoPosition]._id) {
+                    console.log("in");
+                    this.playlistState.activeVideo =
+                    this.playlistState.playList[this.playlistState.activeVideoPosition];
+                    this.playlistState.player.loadVideoById(
+                    this.playlistState.playList[this.playlistState.activeVideoPosition]._id );
+                }
             } else {
+            this.playlistState.activeVideo = data[0];
+            this.playlistState.activeVideoPosition = 0;
             this._subscriptionPlayer = this.playlistState.playerCreated.subscribe(() => {
             this.playlistState.player.loadVideoById(
             this.playlistState.playList[this.playlistState.activeVideoPosition]._id );
             }); }
+            this.checkEnoughSongs();
             },
     (error) => { console.log(error); } ); }
 
