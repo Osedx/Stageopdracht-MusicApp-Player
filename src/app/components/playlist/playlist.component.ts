@@ -56,6 +56,7 @@ export class PlaylistComponent implements OnDestroy, OnInit {
             this.playlistState.playList = data;
             this.playlistState.playListSize = data.length;
             this.playlistState.playListFilled.next();
+            console.log(this.playlistState.player);
             if (typeof this.playlistState.player != "undefined") {
                 if (this.playlistState.activeVideo._id !== this.playlistState.playList[this.playlistState.activeVideoPosition]._id) {
                     this.playlistState.activeVideo =
