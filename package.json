@@ -121,7 +121,6 @@
     "morgan": "^1.8.1",
     "ng-router-loader": "^2.1.0",
     "ng-semantic": "^1.1.13",
-    "ng2-youtube-player": "^0.0.1",
     "ngc-webpack": "1.1.0",
     "node-sass": "^4.5.0",
     "npm": "^4.4.4",
