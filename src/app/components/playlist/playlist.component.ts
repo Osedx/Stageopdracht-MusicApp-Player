@@ -33,8 +33,7 @@ export class PlaylistComponent implements OnDestroy, OnInit {
         this.socketService.socket.on('playlistisupdated', (userid) => {
             this.showUpdateMessage();
         });
-
-        this.socketService.socket.on('itemdeleted', (id) => {
+        this.socketService.socket.on('itemdeleted', (userid) => {
             this.showUpdateMessage();
         });
     }
