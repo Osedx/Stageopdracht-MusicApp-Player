@@ -55,8 +55,9 @@
     z-index: 1;
     color: white;
     align-self: center;
-    margin: 0 5px;
+    margin: 0;
     font-size: 0.85em;
+    min-width: 2.2em;
 }
 
 /*

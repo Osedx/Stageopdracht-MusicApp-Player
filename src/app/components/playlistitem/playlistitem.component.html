@@ -1,5 +1,5 @@
 <div class="playlistflexcontainer" (click)="selectVideo()" [ngClass]="{'active': playlistitem?._id === this.playlistState.activeVideo?._id}">
-    <div class="number">{{index +1}}</div>
+    <div class="number">{{playlistIndex +1}}</div>
     <img class="ui tiny left floated image playlistimage" src="{{playlistitem.thumbnailurl}}">
     <div class="infocontainer">
     <div class="content">

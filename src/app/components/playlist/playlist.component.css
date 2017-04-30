@@ -55,7 +55,7 @@
     opacity: 1;
 }
 
-.fa-caret-left, .fa-caret-right{
+.fa-caret-left, .fa-caret-right {
     opacity: 0.75;
     position: absolute;
     top: 37px;
@@ -91,13 +91,36 @@
     .ui.relaxed.divided.list {
         border-left: 5px solid #555555;
         border-radius: 0 0 5px 5px;
-        height: calc(60vh - 155px);
+        height: calc(60vh - 149px);
     }
     .ui.relaxed.divided.list.messagelist {
-        height: calc(60vh - 201px);
+        height: calc(60vh - 196px);
     }
     .title {
         border-radius: inherit;
+    }
+    .fa-play-circle-o, .fa-pause-circle-o,
+    .fa-caret-left, .fa-caret-right,
+    .fa-refresh, .fa-random {
+        padding: 12px;
+    }
+    .fa-play-circle-o, .fa-pause-circle-o {
+         bottom: 38px;
+    }
+    .fa-caret-left, .fa-caret-right {
+        top: 22px;
+    }
+    .fa-refresh, .fa-random {
+        top: 30px;
+    }
+    .fa-refresh {
+        right: 10%
+    }
+    .fa-random {
+        left: 10%
+    }
+    .title {
+        height: 80px;
     }
 }
 

@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Playlist } from '../models/playlist.model';
 import { DataService } from '../../services/data.service';
@@ -11,10 +11,14 @@ import { PlaylistState } from '../../services/playlist-state.service';
     styleUrls: ['./playlistitem.component.css']
 })
 
-export class PlaylistItemComponent {
+export class PlaylistItemComponent implements OnInit{
     @Input() public playlistitem: Playlist;
     @Input() public index: number;
+    public playlistIndex: number;
  constructor( public playlistState: PlaylistState, public dataService: DataService ) {}
+ngOnInit() {
+    this.playlistIndex = this.playlistState.playList.indexOf(this.playlistitem);
+}
     // set the selected video as active
     public selectVideo() {
         if ( this.playlistState.activeVideo._id === this.playlistitem._id ) { return; }

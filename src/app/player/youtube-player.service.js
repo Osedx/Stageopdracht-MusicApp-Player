@@ -63,7 +63,11 @@ var YoutubePlayerService = (function () {
         };
         return new browser_1.window.YT.Player(elementId, Object.assign({}, playerSize, {
             videoId: videoId || '',
-            // playerVars: playerVars,
+            playerVars: {
+                rel: 0,
+                autoplay: 0,
+                showinfo: 0,
+            },
             events: {
                 onReady: function (ev) {
                     _this.zone.run(function () { return outputs.ready && outputs.ready.next(ev.target); });

@@ -12,9 +12,10 @@ import { DataService } from '../../services/data.service';
 import { SocketService } from '../../services/socket.service';
 import { MessageService } from '../../services/message.service';
 import { SharedModule } from '../shared/shared.module';
+import { VirtualScrollModule } from 'angular2-virtual-scroll';
 
 @NgModule({
-    imports: [ CommonModule, SharedModule ],
+    imports: [ CommonModule, SharedModule, VirtualScrollModule ],
   providers: [ PlaylistState, DataService, SocketService, MessageService ],
     declarations: [ PlaylistPageComponent,
         PlaylistComponent ],

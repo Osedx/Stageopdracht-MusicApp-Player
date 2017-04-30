@@ -19,6 +19,7 @@ export class PlaylistComponent implements OnDestroy, OnInit {
     public _subscription: any;
     public _subscriptionPlayer: any;
     public toplist = [];
+    public viewPortItems: any;
     constructor( public playlistState: PlaylistState, public dataservice: DataService,
                  public settingService: SettingService, public socketService: SocketService,
                  public messageService: MessageService ) {

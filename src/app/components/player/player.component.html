@@ -12,7 +12,6 @@
           *ngIf="playlistState.activeVideo"
           width="100%"
           height="100%"
-          protocol="https"
           [videoId]="playlistState.activeVideo?._id"
           (ready)="savePlayer($event)"
           (change)="onStateChange($event)">
