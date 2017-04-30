@@ -87,6 +87,12 @@
     background: #FF0000;
 }
 
+.title_bar {
+    -webkit-touch-callout: none;                /* prevent callout to copy image, etc when tap to hold */
+    -webkit-text-size-adjust: none;             /* prevent webkit from resizing text to fit */
+    -webkit-user-select: none;                  /* prevent copy paste, to allow, change 'none' to 'text' */
+}
+
 @media (max-width: 700px) {
     .ui.relaxed.divided.list {
         border-left: 5px solid #555555;
