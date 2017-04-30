@@ -11,19 +11,19 @@ import { PlaylistState } from '../../services/playlist-state.service';
     styleUrls: ['./playlistitem.component.css']
 })
 
-export class PlaylistItemComponent implements OnInit{
+export class PlaylistItemComponent implements OnInit {
     @Input() public playlistitem: Playlist;
     @Input() public index: number;
     public playlistIndex: number;
  constructor( public playlistState: PlaylistState, public dataService: DataService ) {}
-ngOnInit() {
+public ngOnInit() {
     this.playlistIndex = this.playlistState.playList.indexOf(this.playlistitem);
 }
     // set the selected video as active
     public selectVideo() {
         if ( this.playlistState.activeVideo._id === this.playlistitem._id ) { return; }
         this.playlistState.activeVideo = this.playlistitem;
-        this.playlistState.activeVideoPosition = this.index;
+        this.playlistState.activeVideoPosition = this.playlistIndex;
         this.playlistState.player.loadVideoById(this.playlistitem._id);
     }
 

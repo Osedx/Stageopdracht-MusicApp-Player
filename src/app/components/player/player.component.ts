@@ -43,10 +43,10 @@ export class PlayerComponent {
     this.playlistState.player.loadVideoById(
     this.playlistState.playList[this.playlistState.activeVideoPosition]._id
         );
+    this.playlistState.updateViewPort();
     }
     public nextRandomVideo() {
     let randomIndex = this.getRandomIndex();
-    console.log(randomIndex);
     if (this.playlistState.activeVideoPosition === randomIndex) {
         return this.nextRandomVideo();
     } else {
@@ -57,6 +57,7 @@ export class PlayerComponent {
     this.playlistState.playList[this.playlistState.activeVideoPosition]._id
     );
     }
+    this.playlistState.updateViewPort();
     }
     public getRandomIndex() {
         const max = this.playlistState.playListSize;

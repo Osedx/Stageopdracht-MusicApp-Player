@@ -7,8 +7,13 @@
 <i class="fa fa-caret-right fa-2x" aria-hidden="true" (click)="nextVideo()"></i>
 <i class='fa fa-refresh' aria-hidden='true' [ngClass]='{"loop": playlistState.loop}' (click)='loop()'></i>
 </div>
+<!--
  <div class="ui relaxed divided list">
   <div class="item" *ngFor="let p of playlistState.playList; let i = index" [class.playing] = "p === playlistState.activeVideo">
       <my-playlistitem [playlistitem]="p" [index]="i"></my-playlistitem>
   </div>
 </div>
+-->
+<virtual-scroll class="ui relaxed divided list" style="display:block" [items]="playlistState.playList" (update)="playlistState.viewPortItems = $event" [childHeight]="62">
+    <my-playlistitem *ngFor="let p of playlistState.viewPortItems" [class.playing] = "p === playlistState.activeVideo" [playlistitem]="p"></my-playlistitem>
+</virtual-scroll>

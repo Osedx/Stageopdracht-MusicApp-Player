@@ -14,4 +14,21 @@ export class PlaylistState {
     public loop = false;
     public playerCreated: Subject<string> = new Subject<string>();
     public player: any;
-}
+    public viewPortItems: any;
+
+public updateViewPort() {
+if (this.viewPortItems.indexOf(this.activeVideo) === -1 ) {
+    const sizeOver =
+        this.activeVideoPosition +
+        this.viewPortItems.length -
+        this.playListSize;
+    if (sizeOver < 0) {
+        for (let i = 0; i < this.viewPortItems.length; i++) {
+        this.viewPortItems[i] = this.playList[this.activeVideoPosition + i];
+            }
+    } else {
+        for (let i = 0; i < this.viewPortItems.length; i++) {
+        this.viewPortItems[i] = this.playList[this.activeVideoPosition + i - sizeOver];
+    }
+    }
+}}}

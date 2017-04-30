@@ -19,7 +19,6 @@ export class PlaylistComponent implements OnDestroy, OnInit {
     public _subscription: any;
     public _subscriptionPlayer: any;
     public toplist = [];
-    public viewPortItems: any;
     constructor( public playlistState: PlaylistState, public dataservice: DataService,
                  public settingService: SettingService, public socketService: SocketService,
                  public messageService: MessageService ) {
@@ -29,7 +28,6 @@ export class PlaylistComponent implements OnDestroy, OnInit {
         this.playlistState.activeVideoPosition = 0;
         this.getPlaylist();
     }
-
     public ngOnInit() {
         this.socketService.socket.on('playlistisupdated', (userid) => {
             this.showUpdateMessage();
@@ -58,8 +56,9 @@ export class PlaylistComponent implements OnDestroy, OnInit {
             this.playlistState.playListSize = data.length;
             this.playlistState.playListFilled.next();
             console.log(this.playlistState.player);
-            if (typeof this.playlistState.player != "undefined") {
-                if (this.playlistState.activeVideo._id !== this.playlistState.playList[this.playlistState.activeVideoPosition]._id) {
+            if (typeof this.playlistState.player !== 'undefined') {
+                if (this.playlistState.activeVideo._id !==
+                this.playlistState.playList[this.playlistState.activeVideoPosition]._id) {
                     this.playlistState.activeVideo =
                     this.playlistState.playList[this.playlistState.activeVideoPosition];
                     this.playlistState.player.loadVideoById(
@@ -97,8 +96,8 @@ export class PlaylistComponent implements OnDestroy, OnInit {
     this.playlistState.activeVideo =
     this.playlistState.playList[this.playlistState.activeVideoPosition];
     this.playlistState.player.loadVideoById(
-    this.playlistState.playList[this.playlistState.activeVideoPosition]._id
-        );
+    this.playlistState.activeVideo._id);
+    this.playlistState.updateViewPort();
     }
     // play previous video
     public previousVideo() {
@@ -111,8 +110,8 @@ export class PlaylistComponent implements OnDestroy, OnInit {
     this.playlistState.activeVideo =
     this.playlistState.playList[this.playlistState.activeVideoPosition];
     this.playlistState.player.loadVideoById(
-    this.playlistState.playList[this.playlistState.activeVideoPosition]._id
-        );
+    this.playlistState.activeVideo._id);
+    this.playlistState.updateViewPort();
     }
     // pause/unpause video
     public changeState() {

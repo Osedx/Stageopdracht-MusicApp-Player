@@ -10,9 +10,10 @@ import { PlaylistState } from '../../services/playlist-state.service';
 // import { myYoutubeSafeUrlPipe } from '../../pipes/youtube-safe-url.pipe';
 import { DataService } from '../../services/data.service';
 import { SharedModule } from '../shared/shared.module';
+import { VirtualScrollModule } from 'angular2-virtual-scroll';
 
 @NgModule({
-    imports: [ CommonModule, SharedModule ],
+    imports: [ CommonModule, SharedModule, VirtualScrollModule ],
   providers: [ PlaylistState, DataService ],
     declarations: [ ToplistPageComponent,
         ToplistComponent ],
