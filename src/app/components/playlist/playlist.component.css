@@ -6,7 +6,7 @@
     overflow-y: scroll;
 }
 
-.ui.relaxed.list:not(.horizontal)>.item {
+.ui.relaxed.list:not(.horizontal) .item {
     padding: 0;
 }
 .title{
