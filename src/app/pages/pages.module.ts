@@ -11,7 +11,7 @@ import { ToplistPageModule } from './toplistpage/toplistpage.module';
 import { PagesRoutingModule } from './pages.routing.module';
 import { NoContentComponent } from './no-content/no-content.component';
 
-//import { VirtualScrollModule } from 'angular2-virtual-scroll';
+import { VirtualScrollModule } from 'angular2-virtual-scroll';
 
 @NgModule({
     imports: [
@@ -21,6 +21,7 @@ import { NoContentComponent } from './no-content/no-content.component';
         CommonModule,
         HttpModule,
         PagesRoutingModule,
+        VirtualScrollModule
     ],
     declarations: [
         NoContentComponent

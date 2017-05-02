@@ -13,10 +13,10 @@ import { SharedModule } from '../shared/shared.module';
 import { VirtualScrollModule } from 'angular2-virtual-scroll';
 
 @NgModule({
-    imports: [ CommonModule, SharedModule, VirtualScrollModule ],
-  providers: [ PlaylistState, DataService ],
+ imports: [ CommonModule, SharedModule, VirtualScrollModule ],
+    providers: [ PlaylistState, DataService ],
     declarations: [ ToplistPageComponent,
-        ToplistComponent ],
+    ToplistComponent ],
     exports: [ToplistPageComponent]
 })
 

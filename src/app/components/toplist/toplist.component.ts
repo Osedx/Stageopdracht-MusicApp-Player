@@ -25,7 +25,6 @@ export class ToplistComponent {
             this.playlistState.playListSize = data.length;
             if (this.playlistState.playList.length > 0) {
                 this.playlistState.activeVideo = this.playlistState.playList[0];
-                console.log(this.playlistState.playList);
                 this.playlistState.activeVideoPosition = 0;
             }
             this.playlistState.playListFilled.next();
