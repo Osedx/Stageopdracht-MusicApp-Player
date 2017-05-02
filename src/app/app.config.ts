@@ -4,7 +4,7 @@ export let APP_CONFIG = new OpaqueToken('app.config');
 
 // show the toplist if it has x amount of songs
 // addFromToplist -> add song from toplist if playlist.count <= x
-// maxCheckAdding -> max number of times a random song is taken and checked
+// maxCheckAdding -> max number of times a random song from toplist is taken and checked if in playlist
 
 export interface IAppConfig {
     showToplistCount: number;

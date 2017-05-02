@@ -27,7 +27,7 @@ const ngcWebpack = require('ngc-webpack');
 const HMR = helpers.hasProcessFlag('hot');
 const AOT = helpers.hasNpmFlag('aot');
 const METADATA = {
-  title: 'District01 Musicapp player',
+  title: 'District01 Player',
   baseUrl: '/',
   isDevServer: helpers.isWebpackDevServer()
 };
