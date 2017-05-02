@@ -4,13 +4,13 @@ import { Component } from '@angular/core';
   selector: 'no-content',
   template: `
     <div>
-    <h1 class="error">404: page doesn't exist :)</h1>
+    <h1 class="error">404: Nothing to see here...</h1>
     </div>
   `,
   styles: [`
     .error {
       text-align: center;   
-      color: red;
+      color: white;
       position: relative;
       top: 20px;
     }
