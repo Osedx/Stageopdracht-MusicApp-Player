@@ -12,6 +12,7 @@ import { DataService } from '../../services/data.service';
 export class ToplistComponent {
     @ViewChild('playlistplayer') public playlistplayer: ElementRef;
     constructor( public playlistState: PlaylistState, public dataservice: DataService) {
+        this.playlistState.toplist = true;
         this.playlistState.playList = [];
         this.playlistState.activeVideo = undefined;
         this.playlistState.activeVideoPosition = 0;
@@ -46,6 +47,7 @@ export class ToplistComponent {
 
     // play next video
     public nextVideo() {
+    if (!this.playlistState.playerCreatedBoolean) {return; }
     if (this.playlistState.activeVideoPosition + 1 ===
     this.playlistState.playListSize) {
     this.playlistState.activeVideoPosition = 0;
@@ -62,6 +64,7 @@ export class ToplistComponent {
 
     // play previous video
     public previousVideo() {
+    if (!this.playlistState.playerCreatedBoolean) {return; }
     if (this.playlistState.activeVideoPosition === 0) {
     this.playlistState.activeVideoPosition = this.playlistState.playListSize - 1;
     } else {

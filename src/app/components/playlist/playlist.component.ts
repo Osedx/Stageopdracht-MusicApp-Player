@@ -22,11 +22,12 @@ export class PlaylistComponent implements OnDestroy, OnInit {
     constructor( public playlistState: PlaylistState, public dataservice: DataService,
                  public settingService: SettingService, public socketService: SocketService,
                  public messageService: MessageService ) {
-        this.messageService.showMessage = false;
-        this.playlistState.playList = [];
-        this.playlistState.activeVideo = undefined;
-        this.playlistState.activeVideoPosition = 0;
-        this.getPlaylist();
+                    this.playlistState.toplist = false;
+                    this.messageService.showMessage = false;
+                    this.playlistState.playList = [];
+                    this.playlistState.activeVideo = undefined;
+                    this.playlistState.activeVideoPosition = 0;
+                    this.getPlaylist();
     }
     public ngOnInit() {
         this.socketService.socket.on('playlistisupdated', (userid) => {
@@ -55,8 +56,8 @@ export class PlaylistComponent implements OnDestroy, OnInit {
             this.playlistState.playList = data;
             this.playlistState.playListSize = data.length;
             this.playlistState.playListFilled.next();
-            console.log(this.playlistState.player);
-            if (typeof this.playlistState.player !== 'undefined') {
+            if (typeof this.playlistState.player !== 'undefined'
+                && typeof this.playlistState.activeVideo !== 'undefined') {
                 if (this.playlistState.activeVideo._id !==
                 this.playlistState.playList[this.playlistState.activeVideoPosition]._id) {
                     this.playlistState.activeVideo =
@@ -86,6 +87,7 @@ export class PlaylistComponent implements OnDestroy, OnInit {
     }
     // play next video
     public nextVideo() {
+    if (!this.playlistState.playerCreatedBoolean) {return; }
     if (this.playlistState.activeVideoPosition + 1 ===
     this.playlistState.playListSize) {
     this.playlistState.activeVideoPosition = 0;
@@ -101,6 +103,7 @@ export class PlaylistComponent implements OnDestroy, OnInit {
     }
     // play previous video
     public previousVideo() {
+    if (!this.playlistState.playerCreatedBoolean) {return; }
     if (this.playlistState.activeVideoPosition === 0) {
     this.playlistState.activeVideoPosition = this.playlistState.playListSize - 1;
     } else {

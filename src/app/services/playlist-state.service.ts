@@ -13,8 +13,10 @@ export class PlaylistState {
     public shuffle = false;
     public loop = false;
     public playerCreated: Subject<string> = new Subject<string>();
+    public playerCreatedBoolean: boolean;
     public player: any;
     public viewPortItems: any;
+    public toplist: boolean;
 
 public updateViewPort() {
 if (this.viewPortItems.indexOf(this.activeVideo) === -1 ) {

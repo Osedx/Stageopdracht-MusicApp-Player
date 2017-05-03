@@ -10,7 +10,9 @@ import { Playlist } from '../models/playlist.model';
 })
 
 export class PlayerComponent {
-    constructor( public playlistState: PlaylistState ) {}
+    constructor( public playlistState: PlaylistState ) {
+        this.playlistState.playerCreatedBoolean = false;
+    }
     public onStateChange(event) {
     if (event.data === 0) {
     if (this.playlistState.shuffle) {
@@ -27,10 +29,13 @@ export class PlayerComponent {
     }
     public savePlayer(player) {
         this.playlistState.player = player;
+        this.playlistState.playerCreatedBoolean = true;
         this.playlistState.playerCreated.next();
         player.playVideo();
     }
     public nextVideo() {
+    if (!this.playlistState.playerCreatedBoolean) {return; }
+    if (!this.playlistState.playerCreatedBoolean) {return; }
     if (this.playlistState.activeVideoPosition + 1 ===
     this.playlistState.playListSize) {
     this.playlistState.activeVideoPosition = 0;
@@ -46,6 +51,7 @@ export class PlayerComponent {
     this.playlistState.updateViewPort();
     }
     public nextRandomVideo() {
+    if (!this.playlistState.playerCreatedBoolean) {return; }
     let randomIndex = this.getRandomIndex();
     if (this.playlistState.activeVideoPosition === randomIndex) {
         return this.nextRandomVideo();

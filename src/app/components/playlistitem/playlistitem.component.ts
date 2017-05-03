@@ -21,6 +21,7 @@ public ngOnInit() {
 }
     // set the selected video as active
     public selectVideo() {
+        if (!this.playlistState.playerCreatedBoolean) {return; }
         if ( this.playlistState.activeVideo._id === this.playlistitem._id ) { return; }
         this.playlistState.activeVideo = this.playlistitem;
         this.playlistState.activeVideoPosition = this.playlistIndex;
