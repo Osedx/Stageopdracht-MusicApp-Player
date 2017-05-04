@@ -5,11 +5,10 @@ import { PlaylistPageComponent }  from './playlistpage/playlistpage.component';
 import { ToplistPageComponent }  from './toplistpage/toplistpage.component';
 
 let pagesRoutes: Routes = [
-  {path: '', component: PlaylistPageComponent },
-  {path: 'toplist', component: ToplistPageComponent},
-  {path: 'playlist', component: PlaylistPageComponent},
-//  {path: '/toplist', component: AboutComponent },
-  {path: '**', component: NoContentComponent }
+    {path: 'toplist', component: ToplistPageComponent},
+    {path: 'playlist', component: PlaylistPageComponent},
+    {path : '', pathMatch: 'full', redirectTo : 'playlist'},
+    {path: '**', component: NoContentComponent }
 ];
 
 export const PagesRoutes = RouterModule.forRoot(pagesRoutes);
