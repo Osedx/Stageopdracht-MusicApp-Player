@@ -19,7 +19,6 @@ import { APP_CONFIG, AppConfig } from './app.config';
         CommonModule,
         HttpModule,
         PagesModule,
-//        PipesModule,
     ],
     declarations: [
         AppComponent

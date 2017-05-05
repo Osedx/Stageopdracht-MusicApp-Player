@@ -13,6 +13,7 @@ import { Component } from '@angular/core';
       color: white;
       position: relative;
       top: 20px;
+      height: calc(100vh - 260px);
     }
   `]
 })
