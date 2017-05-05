@@ -19,6 +19,7 @@ export class PlaylistComponent implements OnDestroy, OnInit {
     public _subscription: any;
     public _subscriptionPlayer: any;
     public toplist = [];
+    public notFound: any;
     constructor( public playlistState: PlaylistState, public dataservice: DataService,
                  public settingService: SettingService, public socketService: SocketService,
                  public messageService: MessageService ) {
@@ -55,6 +56,9 @@ export class PlaylistComponent implements OnDestroy, OnInit {
         (data) => {
             this.playlistState.playList = data;
             this.playlistState.playListSize = data.length;
+            if (this.playlistState.playListSize === 0) {this.notFound = true; }
+            else {
+            this.notFound = false;
             this.playlistState.playListFilled.next();
             if (typeof this.playlistState.player !== 'undefined'
                 && typeof this.playlistState.activeVideo !== 'undefined') {
@@ -71,7 +75,7 @@ export class PlaylistComponent implements OnDestroy, OnInit {
             this._subscriptionPlayer = this.playlistState.playerCreated.subscribe(() => {
             this.playlistState.player.loadVideoById(
             this.playlistState.playList[this.playlistState.activeVideoPosition]._id );
-            }); }
+            }); }}
             this.checkEnoughSongs();
             },
     (error) => { console.log(error); } ); }
@@ -181,7 +185,8 @@ export class PlaylistComponent implements OnDestroy, OnInit {
             }).subscribe(
         (res) => {
             const newPlaylistItem = res.json();
-            this.playlistState.playList[this.lengthPlaylist] = newPlaylistItem;
+            if (!this.messageService.showMessage) this.showUpdateMessage();
+//            this.playlistState.playList[this.lengthPlaylist] = newPlaylistItem;
             this.playlistState.playListSize = this.playlistState.playList.length;
             this.checkEnoughSongs();
                 },

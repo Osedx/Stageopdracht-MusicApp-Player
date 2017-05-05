@@ -25,7 +25,9 @@
 .playlistflexcontainer.active .number {
     color: #3a3a3a;
 }
-
+.infocontainer {
+    align-self: center;
+}
 .infocontainer > .content > .header {
     overflow: hidden;
    text-overflow: ellipsis;

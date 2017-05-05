@@ -92,6 +92,12 @@
     -webkit-text-size-adjust: none;             /* prevent webkit from resizing text to fit */
     -webkit-user-select: none;                  /* prevent copy paste, to allow, change 'none' to 'text' */
 }
+.notFound {
+    margin-top: 14px;
+    height: calc(60vh - 150px);
+    color: white;
+    text-align: center;
+}
 
 @media (max-width: 700px) {
     .ui.relaxed.divided.list {

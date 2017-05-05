@@ -14,6 +14,9 @@
   </div>
 </div>
 -->
-<virtual-scroll class="ui relaxed divided list" style="display:block" [items]="playlistState.playList" (update)="playlistState.viewPortItems = $event" [ngClass]="{'messagelist': messageService.showMessage}" [childHeight]="64">
+<virtual-scroll class="ui relaxed divided list" style="display:block" [(items)]="playlistState.playList" (update)="playlistState.viewPortItems = $event" [ngClass]="{'messagelist': messageService.showMessage}" [childHeight]="64" *ngIf="!notFound">
     <my-playlistitem class="item" *ngFor="let p of playlistState.viewPortItems" [class.playing] = "p === playlistState.activeVideo" [playlistitem]="p"></my-playlistitem>
 </virtual-scroll>
+<div *ngIf="notFound" class="notFound">
+        No music videos found.
+</div>
