@@ -56,8 +56,9 @@ export class PlaylistComponent implements OnDestroy, OnInit {
         (data) => {
             this.playlistState.playList = data;
             this.playlistState.playListSize = data.length;
-            if (this.playlistState.playListSize === 0) {this.notFound = true; }
-            else {
+            if (this.playlistState.playListSize === 0) {
+                this.notFound = true;
+            }else {
             this.notFound = false;
             this.playlistState.playListFilled.next();
             if (typeof this.playlistState.player !== 'undefined'
@@ -185,7 +186,7 @@ export class PlaylistComponent implements OnDestroy, OnInit {
             }).subscribe(
         (res) => {
             const newPlaylistItem = res.json();
-            if (!this.messageService.showMessage) this.showUpdateMessage();
+            if (!this.messageService.showMessage) {this.showUpdateMessage(); }
 //            this.playlistState.playList[this.lengthPlaylist] = newPlaylistItem;
             this.playlistState.playListSize = this.playlistState.playList.length;
             this.checkEnoughSongs();
