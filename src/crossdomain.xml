@@ -4,4 +4,5 @@
 <cross-domain-policy>
   <allow-access-from domain="googleads.g.doubleclick.net" />
   <allow-access-from domain="www.youtube.com" />
+  <allow-access-from domain="musicwebapp.herokuapp.com" />
 </cross-domain-policy>
