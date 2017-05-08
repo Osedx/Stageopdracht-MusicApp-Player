@@ -1,6 +1,6 @@
 .infobar {
-    min-height: 55px;
-    padding: 7px;
+    min-height: 60px;
+    padding: 10px;
     background-color: black;
     border-right: 2px solid #555555;
     border-left: 5px solid #555555;
@@ -8,7 +8,7 @@
 }
 
 .header { 
-    font-size: 1.1em;
+    font-size: 1.3em;
     font-weight: bold;
     color: white;
 }

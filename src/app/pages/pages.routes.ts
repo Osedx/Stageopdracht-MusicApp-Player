@@ -11,4 +11,5 @@ let pagesRoutes: Routes = [
     {path: '**', component: NoContentComponent }
 ];
 
-export const PagesRoutes = RouterModule.forRoot(pagesRoutes, { useHash: false, preloadingStrategy: PreloadAllModules });
+export const PagesRoutes = RouterModule.forRoot(pagesRoutes,
+        { useHash: false, preloadingStrategy: PreloadAllModules });
