@@ -31,4 +31,4 @@ import { APP_CONFIG, AppConfig } from './app.config';
     ]
 })
 
-export class AppModule { }
+export class AppModule {}

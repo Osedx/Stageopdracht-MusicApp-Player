@@ -85,12 +85,14 @@ export class ToplistComponent {
 
     // pause video
     public pause() {
+        if (!this.playlistState.playerCreatedBoolean) {return; }
         this.playlistState.player.pauseVideo();
         this.playlistState.paused = true;
     }
 
     // play video
     public play() {
+        if (!this.playlistState.playerCreatedBoolean) {return; }
         this.playlistState.player.playVideo();
         this.playlistState.paused = false;
     }
