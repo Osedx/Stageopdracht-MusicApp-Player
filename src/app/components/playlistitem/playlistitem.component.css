@@ -72,7 +72,8 @@
 }
 .ui.tiny.image {
     margin-bottom: 0;
-    min-width:80px
+    min-width:70px;
+    width:70px;
 }
 
 /*
