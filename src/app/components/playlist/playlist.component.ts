@@ -53,7 +53,11 @@ export class PlaylistComponent implements OnDestroy, OnInit {
     // Get playlist from database
     public getPlaylist() {
         this.dataservice.getPlaylist().subscribe(
-        (data) => {
+        (newdata) => {
+            let data = newdata.sort(function (a, b) {
+            if (a["rating"] === b["rating"]) return new Date(a["createdAt"]).getTime() - new Date(b["createdAt"]).getTime();
+            else return b["rating"] - a["rating"]; 
+            });
             this.playlistState.playList = data;
             this.playlistState.playListSize = data.length;
             if (this.playlistState.playListSize === 0) {
